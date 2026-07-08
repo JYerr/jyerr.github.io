@@ -3,181 +3,329 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jithendra Yerramsetti - Credit Risk</title>
+<title>Jithendra Sai Krishna Yerramsetti | Credit Risk Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,300&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================
+   1. GLOBAL VARIABLES & BASE STYLES
+   Change these colors to update the entire theme!
+   ========================================= */
+:root {
+  --bg: #f8f9fa;             /* Main page background */
+  --card: #ffffff;           /* Background for project/job cards */
+  --text: #1f2937;           /* Main text color (dark gray) */
+  --muted: #6b7280;          /* Secondary text color (lighter gray) */
+  --accent: #0f766e;         /* Primary brand color (teal) */
+  --accent-light: #e7f7f4;   /* Very light teal for tags */
+  --border: #e5e7eb;         /* Light gray border color */
+  --shadow: 0 10px 30px rgba(0,0,0,.05); /* Soft drop shadow */
+}
+
+/* Base resets for consistent rendering */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; } /* Enables smooth scrolling when clicking nav links */
+body { 
+  margin: 0; 
+  font-family: 'Inter', sans-serif; 
+  background: var(--bg); 
+  color: var(--text); 
+  line-height: 1.65; 
+}
+
+/* Restricts the maximum width of the content and centers it */
+.container { width: min(1120px, 92%); margin: auto; }
+
+/* =========================================
+   2. NAVIGATION BAR
+   ========================================= */
+nav { 
+  position: sticky; /* Keeps nav at the top of the screen */
+  top: 0; 
+  background: rgba(248, 249, 250, 0.9); 
+  backdrop-filter: blur(8px); /* Creates a frosted glass effect */
+  border-bottom: 1px solid var(--border); 
+  z-index: 10; 
+}
+nav .container { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; }
+.logo { font-weight: 700; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+nav .links a { text-decoration: none; color: var(--muted); margin-left: 24px; font-weight: 600; transition: color 0.2s; }
+nav .links a:hover { color: var(--accent); }
+
+/* =========================================
+   3. HERO SECTION (Top About Section)
+   ========================================= */
+.hero { padding: 80px 0; }
+.hero-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 50px; align-items: center; }
+.tag { display: inline-block; padding: 6px 14px; border-radius: 99px; background: var(--accent-light); color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 16px; }
+h1 { font-size: 3rem; line-height: 1.1; margin: 0 0 16px 0; letter-spacing: -0.02em; }
+.subtitle { font-size: 1.2rem; color: var(--accent); font-weight: 600; margin-bottom: 20px; }
+.lead { font-size: 1.1rem; color: var(--muted); max-width: 700px; margin-bottom: 30px; }
+
+/* Buttons */
+.btns .btn { display: inline-block; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: 0.2s; margin-right: 12px; }
+.btn.primary { background: var(--accent); color: #fff; }
+.btn.primary:hover { background: #0d625b; }
+.btn.secondary { border: 1px solid var(--border); background: #fff; color: var(--text); }
+.btn.secondary:hover { background: #f3f4f6; }
+
+/* Quick Stats Side Card */
+.side { background: var(--card); padding: 30px; border-radius: 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.side h3 { margin-top: 0; font-size: 1.2rem; margin-bottom: 20px; }
+.stat { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+.stat:last-child { border-bottom: none; padding-bottom: 0; }
+.stat span { color: var(--muted); }
+
+/* =========================================
+   4. GENERAL SECTION LAYOUT
+   ========================================= */
+section { padding: 70px 0; }
+.section-head { margin-bottom: 40px; }
+h2 { font-size: 2.2rem; margin: 0 0 10px 0; letter-spacing: -0.02em; }
+.section-desc { color: var(--muted); font-size: 1.1rem; margin-top: 0; }
+
+/* =========================================
+   5. PROJECTS SECTION (Ledger Rows)
+   ========================================= */
+.ledger-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+.ledger-row:hover { transform: translateY(-3px); box-shadow: var(--shadow); } /* Lift effect on hover */
+.row-content { padding: 24px; }
+.row-content h3 { margin: 0 0 12px 0; font-size: 1.3rem; }
+.row-content p { margin: 0 0 16px 0; color: var(--muted); font-size: 0.95rem; }
+
+/* Skill badges under each project */
+.badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge { background: #f3f4f6; color: #374151; padding: 4px 12px; border-radius: 99px; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); }
+
+/* =========================================
+   6. EXPERIENCE SECTION
+   ========================================= */
+.timeline { display: grid; gap: 24px; }
+.job { background: var(--card); padding: 32px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+.jobhead { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.jobhead h3 { margin: 0; font-size: 1.4rem; }
+.jobhead .date { color: var(--muted); font-weight: 600; font-size: 0.95rem; }
+.job-role { font-weight: 700; color: var(--accent); margin-bottom: 16px; font-size: 1.1rem; }
+.job ul { margin: 0; padding-left: 20px; color: var(--text); }
+.job li { margin-bottom: 10px; }
+
+/* =========================================
+   7. SKILLS SECTION
+   ========================================= */
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+.skill-group .label { font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+.pills { display: flex; flex-wrap: wrap; gap: 10px; }
+.pill { background: var(--card); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+
+/* =========================================
+   8. FOOTER
+   ========================================= */
+footer { background: #fff; padding: 50px 0; border-top: 1px solid var(--border); text-align: center; }
+.footer-content p { margin: 8px 0; color: var(--muted); }
+.footer-content a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.footer-content a:hover { text-decoration: underline; }
+
+/* =========================================
+   9. MOBILE RESPONSIVENESS
+   Adjusts layout for screens smaller than 820px (Tablets & Phones)
+   ========================================= */
+@media(max-width: 820px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+  h1 { font-size: 2.4rem; }
+  nav .links { display: none; } /* Hides nav links on mobile to save space */
+}
+</style>
 </head>
 <body>
 
-<nav class="site-nav">
-  <div class="wrap">
-    <div class="mark">Jithendra Yerramsetti <span>·</span> Credit Risk Strategy & Analytics</div>
+<nav>
+  <div class="container">
+    <a href="#" class="logo">Jithendra Yerramsetti</a>
     <div class="links">
-      <a href="#work">Case Work</a>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
       <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
     </div>
   </div>
 </nav>
 
-<header class="hero">
-  <div class="wrap hero-grid">
+<header class="hero" id="about">
+  <div class="container hero-grid">
+    
     <div>
-      <div class="eyebrow">Portfolio — Edition 03</div>
+      <span class="tag">Credit Risk Strategy & Analytics</span>
       <h1>Jithendra Yerramsetti</h1>
-      <div class="role">Sr. Credit Risk Analyst &amp; US based Fintech</div>
-      <p class="summary">
-        I'm a Credit Risk professional with 4+ years of work experience, passionate about solving lending problems through data, analytics, and thoughtful risk strategies.
-        This portfolio showcases the projects I've worked on throughout my professional journey. Each project explains the business problem, the analytical approach, key decisions, implementation process, and the impact it delivered. Rather than simply listing my experience, this site provides a deeper look at how I approach real-world credit risk challenges and make data-driven decisions.
-        Whether you're a recruiter, hiring manager, or a fellow risk professional, I hope these projects offer a clear view of my problem-solving approach, technical skills, and the way I think about building scalable and sustainable lending solutions.
-      <div class="cta-row">
-        <a class="btn primary" href="#work">View case work</a>
-        <a class="btn ghost" href="jithendrayerramsetti@gmail.com">Get in touch</a>
+      <div class="subtitle">Credit Risk professional with 4+ years of experience across unsecured lending—education loans, personal loans, and BNPL.</div>
+      
+      <p class="lead">
+        Designing underwriting strategies, improving portfolio quality and solving lending problems using analytics. This website documents the key projects I've worked on during my professional journey.
+      </p>
+
+      <div class="btns">
+        <a class="btn primary" href="#projects">View Case Studies</a>
+        <a class="btn secondary" href="mailto:jithendrayerramsetti@gmail.com">Contact Me</a>
       </div>
     </div>
-    <div class="hero-meta">
-      <!-- <div><b>Based in</b> Boston, MA — open to remote</div> -->
-      <!-- <div><b>Focus</b> Ops turnaround, GTM strategy, pricing</div> -->
-      <!-- <div><b>Engagements</b> 14 completed since 2021</div> -->
-      <div><b>Currently</b> Sr. Risk Analyst</div>
+
+    <div class="side">
+      <h3>Professional Snapshot</h3>
+      <div class="stat"><span>Location</span><strong>Bengaluru</strong></div>
+      <div class="stat"><span>Experience</span><strong>4+ Years</strong></div>
+      <div class="stat"><span>Domain</span><strong>Unsecured Lending</strong></div>
+      <div class="stat"><span>Education</span><strong>B.Tech, BIT Mesra (84%)</strong></div>
     </div>
   </div>
 </header>
 
-<section class="section" id="work">
-  <div class="wrap">
+<section id="projects">
+  <div class="container">
     <div class="section-head">
-      <h2>Case Work</h2>
-      <div class="count">Scaling portfolio from $100M AUM to 1B AUM</div>
+      <h2>Key Projects & Initiatives</h2>
+      <p class="section-desc">Selected strategies and optimizations driving portfolio growth and mitigating risk.</p>
     </div>
 
     <div class="ledger-row">
-      <a class="row-link" href="case-retail.html">
-        <div class="ledger-year">2024</div>
-        <div class="ledger-title">Inventory Turnaround at Scale
-          <small>Northfield Retail Group — 220 stores, national footprint</small>
+      <div class="row-content">
+        <h3>Underwriting Optimization & Risk Strategy</h3>
+        <p>Reduced CAC by 25% and lifetime losses by 15% through top-of-funnel pruning without impacting business bottom line. Piloted a refinance product to expand product offering, targeting a $50M annual scale. Developed a risk-based gap funding strategy, improving approval rates by 10% and lowering portfolio risk by 5%.</p>
+        <div class="badges">
+          <span class="badge">Risk Strategy</span>
+          <span class="badge">CAC Optimization</span>
+          <span class="badge">Product Piloting</span>
         </div>
-        <div class="ledger-sector">Retail · Ops</div>
-        <div class="ledger-spark">
-          <svg width="90" height="28" viewBox="0 0 90 28">
-            <polyline points="0,22 15,20 30,18 45,12 60,9 75,6 90,4" fill="none" stroke="#5C7A5C" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="ledger-arrow">View →</div>
-      </a>
+      </div>
     </div>
 
     <div class="ledger-row">
-      <a class="row-link" href="case-health.html">
-        <div class="ledger-year">2023</div>
-        <div class="ledger-title">Cutting Patient Wait Times 24%
-          <small>Bridgeview Health Network — 6-clinic system</small>
+      <div class="row-content">
+        <h3>Collections Strategy (BNPL & Personal Loan)</h3>
+        <p>Developed an ML model and implemented a targeted collection strategy, reducing bounce rates by 20% and improving recovery rates by 15%. Helped Collections team meet targets without proportionate increase in Ops capacity.</p>
+        <div class="badges">
+          <span class="badge">Machine Learning</span>
+          <span class="badge">Collections Analytics</span>
+          <span class="badge">Operational Efficiency</span>
         </div>
-        <div class="ledger-sector">Healthcare · Ops</div>
-        <div class="ledger-spark">
-          <svg width="90" height="28" viewBox="0 0 90 28">
-            <polyline points="0,4 15,7 30,10 45,14 60,17 75,21 90,24" fill="none" stroke="#B5533C" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="ledger-arrow">View →</div>
-      </a>
+      </div>
     </div>
 
     <div class="ledger-row">
-      <a class="row-link" href="case-fintech.html">
-        <div class="ledger-year">2025</div>
-        <div class="ledger-title">Market Entry Strategy for SMB Lending
-          <small>Solace Pay — Series B fintech</small>
+      <div class="row-content">
+        <h3>Underwriting Policy Innovation</h3>
+        <p>Developed a Personal Loan Top-up Loan Policy to boost customer lifetime value. Designed a subprime loan product leveraging BNPL repayment history and alternative data, expanding loan accessibility to underserved customers with 90% on-time repayment. Piloted a new underwriting policy for open-market personal loans.</p>
+        <div class="badges">
+          <span class="badge">Policy Design</span>
+          <span class="badge">Alternative Data</span>
+          <span class="badge">Subprime Lending</span>
         </div>
-        <div class="ledger-sector">Fintech · Strategy</div>
-        <div class="ledger-spark">
-          <svg width="90" height="28" viewBox="0 0 90 28">
-            <rect x="2" y="18" width="8" height="8" fill="#4F6D7A"/>
-            <rect x="16" y="14" width="8" height="12" fill="#4F6D7A"/>
-            <rect x="30" y="10" width="8" height="16" fill="#4F6D7A"/>
-            <rect x="44" y="6" width="8" height="20" fill="#A8793F"/>
-            <rect x="58" y="2" width="8" height="24" fill="#A8793F"/>
-          </svg>
+      </div>
+    </div>
+
+    <div class="ledger-row">
+      <div class="row-content">
+        <h3>Pre-Approved Base Automation & Portfolio Monitoring</h3>
+        <p>Automated top-of-the-funnel targeting using Amazon SageMaker, optimizing resource allocation and freeing up bandwidth for strategic tasks. Improved base quality and conversion through behavioral segmentation and iterative testing. Tracked portfolio performance month-on-month, setting up monitoring dashboard cron jobs using Holistics for timely identification of abnormal events.</p>
+        <div class="badges">
+          <span class="badge">Amazon SageMaker</span>
+          <span class="badge">Holistics</span>
+          <span class="badge">Automation</span>
         </div>
-        <div class="ledger-arrow">View →</div>
-      </a>
+      </div>
+    </div>
+    </div>
+</section>
+
+<section id="experience" style="background: #ffffff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="section-head">
+      <h2>Professional Experience</h2>
+    </div>
+
+    <div class="timeline">
+      
+      <div class="job">
+        <div class="jobhead">
+          <h3>Mpower Financing</h3>
+          <span class="date">Mar 2024 - Present</span>
+        </div>
+        <div class="job-role">Sr. Risk Analyst</div>
+        <ul>
+          <li>Leading credit risk initiatives to support portfolio scale-up sustainably from $100M to $1B AUM in international education loans.</li>
+          <li>Improved credit decision turnaround by 20% QoQ through policy refinement and automation of underwriting workflows.</li>
+          <li>Managing a team of 3 analysts; driving process enhancements to improve efficiency and compliance in credit decisioning.</li>
+          <li>Ensured alignment between credit risk execution and broader business strategy, enhancing stakeholder coordination and delivery discipline.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="jobhead">
+          <h3>Axio Finance (formerly Capital Float)</h3>
+          <span class="date">Feb 2022 - Mar 2024</span>
+        </div>
+        <div class="job-role">Credit Risk Analyst</div>
+        <ul>
+          <li>Owned cross-sell risk strategy for Personal Loans sourced from BNPL base; scaled disbursals from ₹10 Cr to ₹150 Cr/month, while maintaining cohort losses under 3%.</li>
+          <li>Automated pre-approved user base targeting using Amazon SageMaker, freeing up 30% analyst bandwidth for strategic initiatives.</li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </section>
 
-<section class="section" id="experience">
-  <div class="wrap two-col">
-    <div>
-      <div class="section-head"><h2>Experience</h2></div>
-
-      <div class="exp-item">
-        <div class="exp-head"><span>Independent</span><span>2021 — Present</span></div>
-        <div class="exp-role">Strategy &amp; Operations Consultant</div>
-        <div class="exp-desc">Advise mid-market operators on inventory, pricing, and go-to-market decisions. 14 engagements across retail, healthcare, and fintech.</div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-head"><span>Halvorsen &amp; Cole</span><span>2018 — 2021</span></div>
-        <div class="exp-role">Senior Associate, Ops Practice</div>
-        <div class="exp-desc">Led workstreams on supply chain and cost-to-serve for retail and CPG clients. Built the firm's internal pricing-elasticity toolkit.</div>
-      </div>
-
-      <div class="exp-item">
-        <div class="exp-head"><span>Fieldstone Health</span><span>2016 — 2018</span></div>
-        <div class="exp-role">Operations Analyst</div>
-        <div class="exp-desc">Owned scheduling and throughput analytics for a 4-clinic outpatient network.</div>
-      </div>
+<section id="skills">
+  <div class="container">
+    <div class="section-head">
+      <h2>Core Competencies</h2>
     </div>
-
-    <div>
-      <div class="section-head"><h2>Focus Areas</h2></div>
-
+    
+    <div class="skills-grid">
+      
       <div class="skill-group">
-        <div class="label">Strategy</div>
+        <div class="label">Data & Analytics Technologies</div>
         <div class="pills">
-          <span class="pill">Market entry</span>
-          <span class="pill">Pricing strategy</span>
-          <span class="pill">Growth planning</span>
-          <span class="pill">Competitive analysis</span>
+          <span class="pill">PostgreSQL</span>
+          <span class="pill">Amazon Redshift</span>
+          <span class="pill">Amazon SageMaker</span>
+          <span class="pill">Amazon S3</span>
+          <span class="pill">Altair Analytics Workbench</span>
+          <span class="pill">Holistics (Dashboarding Tool)</span>
+          <span class="pill">Advanced Excel</span>
+          <span class="pill">Python</span>
         </div>
       </div>
 
       <div class="skill-group">
-        <div class="label">Operations</div>
+        <div class="label">Risk & Strategy</div>
         <div class="pills">
-          <span class="pill">Inventory management</span>
-          <span class="pill">Process redesign</span>
-          <span class="pill">Throughput analysis</span>
-          <span class="pill">Cost-to-serve modeling</span>
+          <span class="pill">Underwriting Policy</span>
+          <span class="pill">Portfolio Monitoring</span>
+          <span class="pill">Collections Strategy</span>
+          <span class="pill">Statistical Modeling</span>
         </div>
       </div>
 
       <!-- <div class="skill-group">
-        <div class="label">Tools</div>
+        <div class="label">Tools & Execution</div>
         <div class="pills">
-          <span class="pill">SQL</span>
-          <span class="pill">---</span>
-          <span class="pill">Tableau</span>
-          <span class="pill">Excel / Financial Modeling</span>
+          <span class="pill">Redshift</span>
+          
+          <span class="pill">Team Management</span>
         </div>
       </div> -->
 
-      <div class="skill-group">
-        <div class="label">Education</div>
-        <div class="pills">
-          <span class="pill">Bachelor's from Birla Institute of Techology, Mesra</span>
-          <!-- <span class="pill">BS Economics — UMass Amherst</span> -->
-        </div>
-      </div>
     </div>
   </div>
 </section>
 
 <footer id="contact">
-  <div class="wrap">
-    <div>© 2026 Jithendra Yerramsetti.  All case data mocked for demonstration.</div>
-    <div>jithendrayerramsetti@gmail.com · https://www.linkedin.com/in/jithendrayerramsetti/</div>
+  <div class="container footer-content">
+    <!-- <h3 style="margin-top: 0;">Jithendra Sai Krishna Yerramsetti</h3> -->
+    <p>Email: <a href="mailto:jithendrayerramsetti@gmail.com">jithendrayerramsetti@gmail.com</a></p>
+    <p>Phone: (+91) 7680899482</p>
+    <p>LinkedIn: <a href="https://linkedin.com/in/jithendrayerramsetti" target="_blank">linkedin/jithendrayerramsetti</a></p>
+    <p style="margin-top: 30px; font-size: 0.9rem;">© 2026 All rights reserved. Data Shown in the projects is mocked up</p>
   </div>
 </footer>
 
