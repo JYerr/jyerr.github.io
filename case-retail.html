@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventory Turnaround at Scale — Maya Whitfield</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,300&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="mark">Maya Whitfield <span>·</span> Consulting</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="index.html#work">All Case Work</a>
+    </div>
+  </div>
+</nav>
+
+<header class="case-cover">
+  <div class="wrap">
+    <div class="eyebrow">Case 2024 · Retail · Operations</div>
+    <h1>Inventory Turnaround at Scale</h1>
+    <div class="meta-row">
+      <div><b>Client</b>Northfield Retail Group</div>
+      <div><b>Footprint</b>220 stores, national</div>
+      <div><b>Duration</b>16 weeks</div>
+      <div><b>Role</b>Lead consultant</div>
+    </div>
+
+    <div class="metric-strip">
+      <div class="metric down"><b>−18%</b><span>Inventory carrying cost</span></div>
+      <div class="metric down"><b>−32%</b><span>Stockout rate</span></div>
+      <div class="metric up"><b>+6.4pt</b><span>Gross margin, affected SKUs</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="case-body">
+  <div class="wrap">
+
+    <div class="case-block">
+      <div class="tag">Situation</div>
+      <div>
+        <h3>Warehouses full, shelves empty</h3>
+        <p>Northfield was carrying record inventory value while stores still ran out of top-selling
+        items. The forecasting model treated every SKU the same, so fast-moving items were chronically
+        under-ordered while slow movers piled up in regional warehouses.</p>
+      </div>
+    </div>
+
+    <div class="case-block">
+      <div class="tag">Approach</div>
+      <div>
+        <h3>Segment, then re-forecast</h3>
+        <ul>
+          <li>Split the SKU catalog into four velocity tiers using 18 months of sell-through data</li>
+          <li>Built a tier-specific reorder model with different safety-stock rules per tier</li>
+          <li>Piloted the new model in 24 stores for 6 weeks before national rollout</li>
+          <li>Trained regional ops leads to override the model during known demand spikes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="case-block">
+      <div class="tag">Signal</div>
+      <div>
+        <div class="chart-card">
+          <div class="chart-label">Inventory carrying cost, indexed to Month 0 (mocked data)</div>
+          <svg viewBox="0 0 640 220" width="100%" height="220">
+            <!-- gridlines -->
+            <line x1="0" y1="20" x2="640" y2="20" stroke="#D8D1C2" stroke-width="1"/>
+            <line x1="0" y1="70" x2="640" y2="70" stroke="#D8D1C2" stroke-width="1"/>
+            <line x1="0" y1="120" x2="640" y2="120" stroke="#D8D1C2" stroke-width="1"/>
+            <line x1="0" y1="170" x2="640" y2="170" stroke="#D8D1C2" stroke-width="1"/>
+
+            <!-- baseline (pre-pilot) -->
+            <polyline points="0,60 90,58 180,62 270,55" fill="none" stroke="#B5533C" stroke-width="2" stroke-dasharray="4,4"/>
+            <!-- post-intervention -->
+            <polyline points="270,55 360,90 450,130 540,158 640,172" fill="none" stroke="#5C7A5C" stroke-width="2.5"/>
+
+            <circle cx="270" cy="55" r="4" fill="#1C2531"/>
+            <text x="278" y="50" font-family="IBM Plex Mono" font-size="11" fill="#6B6558">Pilot launch, Mo. 4</text>
+
+            <circle cx="640" cy="172" r="4" fill="#5C7A5C"/>
+            <text x="560" y="195" font-family="IBM Plex Mono" font-size="11" fill="#5C7A5C">−18% by Mo. 10</text>
+
+            <text x="0" y="14" font-family="IBM Plex Mono" font-size="10" fill="#6B6558">index</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-block">
+      <div class="tag">Impact</div>
+      <div>
+        <p>The tiered model freed up warehouse capacity and cut stockouts on the top 200 SKUs by a
+        third. Northfield's ops team now owns the model and re-tunes tier thresholds quarterly.</p>
+        <p class="pull-quote">
+          "We stopped treating a phone case and a winter coat like they follow the same demand curve.
+          That was the whole unlock."
+          <cite>— VP Supply Chain, Northfield Retail Group (mocked quote)</cite>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="wrap case-nav">
+  <a href="index.html#work">← All case work</a>
+  <a href="case-health.html">Next: Cutting Patient Wait Times →</a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Maya Whitfield. All case data mocked for demonstration.</div>
+    <div>hello@mayawhitfield.example</div>
+  </div>
+</footer>
+
+</body>
+</html>

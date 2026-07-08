@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cutting Patient Wait Times 24% — Maya Whitfield</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,300&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="mark">Maya Whitfield <span>·</span> Consulting</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="index.html#work">All Case Work</a>
+    </div>
+  </div>
+</nav>
+
+<header class="case-cover">
+  <div class="wrap">
+    <div class="eyebrow">Case 2023 · Healthcare · Operations</div>
+    <h1>Cutting Patient Wait Times 24%</h1>
+    <div class="meta-row">
+      <div><b>Client</b>Bridgeview Health Network</div>
+      <div><b>Footprint</b>6-clinic outpatient system</div>
+      <div><b>Duration</b>10 weeks</div>
+      <div><b>Role</b>Lead consultant</div>
+    </div>
+
+    <div class="metric-strip">
+      <div class="metric up"><b>−24%</b><span>Average patient wait time</span></div>
+      <div class="metric up"><b>+15%</b><span>Daily patient throughput</span></div>
+      <div class="metric up"><b>+9pt</b><span>Patient satisfaction score</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="case-body">
+  <div class="wrap">
+
+    <div class="case-block">
+      <div class="tag">Situation</div>
+      <div>
+        <h3>Every clinic booked the same way, every clinic backed up differently</h3>
+        <p>Bridgeview's six clinics used one shared scheduling template despite very different patient
+        mixes. Two clinics were chronically overbooked in the morning and idle by 3pm; the rest ran
+        the opposite pattern. Wait times were the top complaint in patient surveys for three straight
+        quarters.</p>
+      </div>
+    </div>
+
+    <div class="case-block">
+      <div class="tag">Approach</div>
+      <div>
+        <h3>Rebuild the schedule around each clinic's real demand curve</h3>
+        <ul>
+          <li>Mapped hourly arrival patterns per clinic over 12 months of visit logs</li>
+          <li>Redesigned appointment slot lengths by visit type instead of a flat 20-minute default</li>
+          <li>Added a float-nurse pool that shifts between clinics based on the morning's actual load</li>
+          <li>Ran a 4-week A/B pilot across two clinics before rolling out network-wide</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="case-block">
+      <div class="tag">Signal</div>
+      <div>
+        <div class="chart-card">
+          <div class="chart-label">Average patient wait time, minutes, by week (mocked data)</div>
+          <svg viewBox="0 0 640 220" width="100%" height="220">
+            <line x1="0" y1="20" x2="640" y2="20" stroke="#D8D1C2" stroke-width="1"/>
+            <line x1="0" y1="70" x2="640" y2="70" stroke="#D8D1C2" stroke-width="1"/>
+            <line x1="0" y1="120" x2="640" y2="120" stroke="#D8D1C2" stroke-width="1"/>
+            <line x1="0" y1="170" x2="640" y2="170" stroke="#D8D1C2" stroke-width="1"/>
+
+            <polyline points="0,40 80,44 160,38 240,46" fill="none" stroke="#B5533C" stroke-width="2" stroke-dasharray="4,4"/>
+            <polyline points="240,46 320,80 400,110 480,135 560,150 640,158" fill="none" stroke="#5C7A5C" stroke-width="2.5"/>
+
+            <circle cx="240" cy="46" r="4" fill="#1C2531"/>
+            <text x="248" y="42" font-family="IBM Plex Mono" font-size="11" fill="#6B6558">Pilot starts, Wk 6</text>
+
+            <circle cx="640" cy="158" r="4" fill="#5C7A5C"/>
+            <text x="500" y="185" font-family="IBM Plex Mono" font-size="11" fill="#5C7A5C">31 min avg, down from 41</text>
+
+            <text x="0" y="14" font-family="IBM Plex Mono" font-size="10" fill="#6B6558">minutes</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-block">
+      <div class="tag">Impact</div>
+      <div>
+        <p>Wait times dropped from a 41-minute average to 31 minutes network-wide, and the float-pool
+        model became a permanent staffing pattern. Two other clinic groups in the same health system
+        have since adopted the approach.</p>
+        <p class="pull-quote">
+          "The float pool sounded expensive on paper. It paid for itself in reduced overtime within
+          the first month."
+          <cite>— Director of Clinical Operations, Bridgeview Health Network (mocked quote)</cite>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="wrap case-nav">
+  <a href="case-retail.html">← Previous: Inventory Turnaround</a>
+  <a href="case-fintech.html">Next: Market Entry Strategy →</a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Maya Whitfield. All case data mocked for demonstration.</div>
+    <div>hello@mayawhitfield.example</div>
+  </div>
+</footer>
+
+</body>
+</html>
