@@ -3,148 +3,246 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jithendra Sai Krishna Yerramsetti | Portfolio</title>
+<title>Jithendra Yerramsetti | Credit Risk & Portfolio Analytics</title>
+
+<!--
+  ============================================================================
+  HOW THIS FILE IS ORGANIZED (read this first)
+  ============================================================================
+  1. FONTS          – three Google Fonts, one per role (display / body / mono)
+  2. CSS VARIABLES   – every color, spacing and radius lives in :root. Change
+                        a value once here and it updates the whole page.
+  3. BASE STYLES     – resets, layout container, typography defaults
+  4. COMPONENT STYLES – nav, hero, stamp, case files, timeline, skills, footer
+  5. HTML             – the actual page content, in the same order it renders
+
+  TO ADD A NEW CASE STUDY / PROJECT:
+  Scroll to the "CASE FILES" section below (search for "CASE FILE ENTRY").
+  Copy one <article class="case"> block, change the text, and update the
+  href on the "Read case study" link to point at your new case-study HTML
+  file (duplicate case-study-underwriting-optimization.html as a starting
+  point — it already has the shared styling, "Exhibit" chart layout, etc.)
+  ============================================================================
+-->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Display face: Source Serif 4 (headlines, editorial/report feel)
+     Body face: IBM Plex Sans (clean, professional, readable at small sizes)
+     Mono face: IBM Plex Mono (used only for numbers, labels, case-file refs) -->
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
 <style>
-/* =========================================
-   1. GLOBAL VARIABLES & BASE STYLES
-   Change these colors to update the entire theme!
-   ========================================= */
+/* =========================================================================
+   1. CSS VARIABLES — the whole theme lives here
+   ========================================================================= */
 :root {
-  --bg: #f8f9fa;             /* Main page background */
-  --card: #ffffff;           /* Background for project/job cards */
-  --text: #1f2937;           /* Main text color (dark gray) */
-  --muted: #6b7280;          /* Secondary text color (lighter gray) */
-  --accent: #0f766e;         /* Primary brand color (teal) */
-  --accent-light: #e7f7f4;   /* Very light teal for tags */
-  --border: #e5e7eb;         /* Light gray border color */
-  --shadow: 0 10px 30px rgba(0,0,0,.05); /* Soft drop shadow */
+  /* --- Color: navy + teal + a single gold "stamp" accent ---
+     Kept the teal from the original site (already your brand from the
+     Branch/ABS decks) but paired it with a deep navy instead of pure
+     black, and a warm paper background instead of pure white/cream. */
+  --paper:      #F6F5F0;   /* page background — warm, neutral paper tone */
+  --card:       #FFFFFF;   /* card / panel background */
+  --ink:        #14213D;   /* primary text + headlines — deep navy */
+  --ink-soft:   #55606F;   /* secondary text — muted slate */
+  --teal:       #0F766E;   /* primary accent — links, tags, highlights */
+  --teal-light: #E7F5F3;   /* pale teal for badge backgrounds */
+  --gold:       #B8862E;   /* single "stamp" accent — used sparingly */
+  --line:       #DEDBD1;   /* hairline borders */
+  --shadow:     0 12px 28px rgba(20,33,61,0.06);
+
+  /* --- Type scale --- */
+  --font-display: 'Source Serif 4', Georgia, serif;
+  --font-body:    'IBM Plex Sans', -apple-system, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+
+  /* --- Layout --- */
+  --max-w: 1080px;
+  --radius: 10px;
 }
 
-/* Base resets for consistent rendering */
+/* =========================================================================
+   2. BASE / RESET
+   ========================================================================= */
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; } /* Enables smooth scrolling when clicking nav links */
-body { 
-  margin: 0; 
-  font-family: 'Inter', sans-serif; 
-  background: var(--bg); 
-  color: var(--text); 
-  line-height: 1.65; 
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.container { width: min(var(--max-w), 92%); margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; } /* keyboard accessibility */
+
+/* Small caps / mono "label" style used for eyebrows, refs, and metrics —
+   this is the recurring "case file" typographic motif of the whole site */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal);
 }
 
-/* Restricts the maximum width of the content and centers it */
-.container { width: min(1120px, 92%); margin: auto; }
-
-/* =========================================
-   2. NAVIGATION BAR
-   ========================================= */
-nav { 
-  position: sticky; /* Keeps nav at the top of the screen */
-  top: 0; 
-  background: rgba(248, 249, 250, 0.9); 
-  backdrop-filter: blur(8px); /* Creates a frosted glass effect */
-  border-bottom: 1px solid var(--border); 
-  z-index: 10; 
+/* =========================================================================
+   3. NAVIGATION
+   ========================================================================= */
+nav {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(246,245,240,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
 }
 nav .container { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; }
-.logo { font-weight: 700; font-size: 1.1rem; color: var(--text); text-decoration: none; }
-nav .links a { text-decoration: none; color: var(--muted); margin-left: 24px; font-weight: 600; transition: color 0.2s; }
-nav .links a:hover { color: var(--accent); }
+.logo { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; text-decoration: none; }
+.logo span { color: var(--teal); }
+nav .links a { text-decoration: none; color: var(--ink-soft); margin-left: 28px; font-weight: 600; font-size: 0.92rem; transition: color 0.2s; }
+nav .links a:hover { color: var(--teal); }
 
-/* =========================================
-   3. HERO SECTION (Top About Section)
-   ========================================= */
-.hero { padding: 80px 0; }
-.hero-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 50px; align-items: center; }
-.tag { display: inline-block; padding: 6px 14px; border-radius: 99px; background: var(--accent-light); color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 16px; }
-h1 { font-size: 3rem; line-height: 1.1; margin: 0 0 16px 0; letter-spacing: -0.02em; }
-.subtitle { font-size: 1.2rem; color: var(--accent); font-weight: 600; margin-bottom: 20px; }
-.lead { font-size: 1.1rem; color: var(--muted); max-width: 700px; margin-bottom: 30px; }
+/* =========================================================================
+   4. HERO
+   ========================================================================= */
+.hero { padding: 76px 0 64px; position: relative; }
+.hero-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: 56px; align-items: start; }
 
-/* Buttons */
-.btns .btn { display: inline-block; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: 0.2s; margin-right: 12px; }
-.btn.primary { background: var(--accent); color: #fff; }
-.btn.primary:hover { background: #0d625b; }
-.btn.secondary { border: 1px solid var(--border); background: #fff; color: var(--text); }
-.btn.secondary:hover { background: #f3f4f6; }
+.hero h1 { font-size: 2.9rem; line-height: 1.08; margin: 14px 0 18px; }
+.hero .subtitle { font-family: var(--font-mono); font-size: 1rem; color: var(--teal); font-weight: 600; margin-bottom: 18px; }
+.hero .lead { font-size: 1.08rem; color: var(--ink-soft); max-width: 620px; margin-bottom: 30px; }
 
-/* Quick Stats Side Card */
-.side { background: var(--card); padding: 30px; border-radius: 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-.side h3 { margin-top: 0; font-size: 1.2rem; margin-bottom: 20px; }
-.stat { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
-.stat:last-child { border-bottom: none; padding-bottom: 0; }
-.stat span { color: var(--muted); }
+.btns .btn { display: inline-block; padding: 12px 22px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.95rem; margin-right: 12px; transition: 0.2s; }
+.btn.primary { background: var(--ink); color: #fff; }
+.btn.primary:hover { background: var(--teal); }
+.btn.secondary { border: 1px solid var(--line); background: transparent; color: var(--ink); }
+.btn.secondary:hover { border-color: var(--teal); color: var(--teal); }
 
-/* =========================================
-   4. GENERAL SECTION LAYOUT
-   ========================================= */
-section { padding: 70px 0; }
-.section-head { margin-bottom: 40px; }
-h2 { font-size: 2.2rem; margin: 0 0 10px 0; letter-spacing: -0.02em; }
-.section-desc { color: var(--muted); font-size: 1.1rem; margin-top: 0; }
-
-/* =========================================
-   5. PROJECTS SECTION (Ledger Rows)
-   ========================================= */
-.ledger-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; transition: transform 0.2s, box-shadow 0.2s; }
-.ledger-row:hover { transform: translateY(-3px); box-shadow: var(--shadow); } /* Lift effect on hover */
-.row-content { padding: 24px; }
-.row-content h3 { margin: 0 0 12px 0; font-size: 1.3rem; }
-.row-content p { margin: 0 0 16px 0; color: var(--muted); font-size: 0.95rem; }
-
-/* Skill badges under each project */
-.badges { display: flex; gap: 8px; flex-wrap: wrap; }
-.badge { background: #f3f4f6; color: #374151; padding: 4px 12px; border-radius: 99px; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); }
-
-/* =========================================
-   6. EXPERIENCE SECTION
-   ========================================= */
-.timeline { display: grid; gap: 24px; }
-.job { background: var(--card); padding: 32px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow); }
-.jobhead { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 16px; flex-wrap: wrap; }
-.jobhead h3 { margin: 0; font-size: 1.4rem; }
-.jobhead .date { color: var(--muted); font-weight: 600; font-size: 0.95rem; }
-.job-role { font-weight: 700; color: var(--accent); margin-bottom: 16px; font-size: 1.1rem; }
-.job ul { margin: 0; padding-left: 20px; color: var(--text); }
-.job li { margin-bottom: 10px; }
-
-/* =========================================
-   7. SKILLS SECTION
-   ========================================= */
-.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-.skill-group .label { font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
-.pills { display: flex; flex-wrap: wrap; gap: 10px; }
-.pill { background: var(--card); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-
-/* =========================================
-   8. FOOTER
-   ========================================= */
-footer { background: #fff; padding: 50px 0; border-top: 1px solid var(--border); text-align: center; }
-.footer-content p { margin: 8px 0; color: var(--muted); }
-.footer-content a { color: var(--accent); text-decoration: none; font-weight: 600; }
-.footer-content a:hover { text-decoration: underline; }
-
-/* =========================================
-   9. MOBILE RESPONSIVENESS
-   Adjusts layout for screens smaller than 820px (Tablets & Phones)
-   ========================================= */
-@media(max-width: 820px) {
-  .hero-grid { grid-template-columns: 1fr; gap: 30px; }
-  h1 { font-size: 2.4rem; }
-  nav .links { display: none; } /* Hides nav links on mobile to save space */
+/* --- "Case File" summary card (replaces the old generic stats card) ---
+   Styled like the metadata block on the cover sheet of a credit memo:
+   ref number, classification line, then the actual stat rows. */
+.file-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
+.file-card .file-head {
+  background: var(--ink);
+  color: #fff;
+  padding: 14px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+.file-card .file-head span:last-child { color: #9fb0c9; }
+.file-card .file-body { padding: 22px; }
+.stat { display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px dashed var(--line); font-size: 0.94rem; }
+.stat:last-child { border-bottom: none; padding-bottom: 0; }
+.stat span:first-child { color: var(--ink-soft); }
+.stat strong { font-family: var(--font-mono); font-weight: 600; }
+
+/* --- Signature element: an "APPROVED" underwriting stamp ---
+   This is the one bold/illustrative flourish on the page, grounded
+   directly in the subject matter (loan-document approval stamps).
+   Pure CSS + one small inline SVG — no image asset needed. */
+/* .stamp {
+  position: absolute;
+  top: 40px; right: -6px;
+  width: 128px; height: 128px;
+  transform: rotate(-11deg);
+  opacity: 0.94;
+  pointer-events: none;
+}
+.stamp svg { width: 100%; height: 100%; }
+@media (max-width: 980px) { .stamp { display: none; } } /* hide on narrow layouts to avoid clutter */ */
+
+/* =========================================================================
+   5. SECTION LAYOUT (shared)
+   ========================================================================= */
+section { padding: 60px 0; }
+.section-head { margin-bottom: 34px; }
+.section-head .label { display: block; margin-bottom: 8px; }
+h2 { font-size: 1.9rem; }
+.section-desc { color: var(--ink-soft); font-size: 1.02rem; margin: 8px 0 0; max-width: 620px; }
+
+/* =========================================================================
+   6. EXPERIENCE (timeline)
+   ========================================================================= */
+#experience { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.timeline { display: grid; gap: 20px; }
+.job { padding: 0; }
+.jobhead { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+.jobhead h3 { font-size: 1.25rem; }
+.jobhead .date { font-family: var(--font-mono); color: var(--ink-soft); font-weight: 600; font-size: 0.85rem; }
+.job-role { font-family: var(--font-mono); font-weight: 600; color: var(--teal); margin-bottom: 14px; font-size: 0.92rem; letter-spacing: 0.02em; }
+.job ul { margin: 0; padding-left: 20px; }
+.job li { margin-bottom: 9px; }
+.job:not(:last-child) { padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+
+/* =========================================================================
+   7. CASE FILES (short project boxes -> link out to full case study pages)
+   ========================================================================= */
+.case-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+@media (max-width: 720px) { .case-grid { grid-template-columns: 1fr; } }
+
+.case {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  display: flex;
+  flex-direction: column;
+}
+.case:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--teal); }
+
+.case .case-ref { font-family: var(--font-mono); font-size: 0.72rem; color: var(--gold); font-weight: 600; letter-spacing: 0.06em; margin-bottom: 10px; }
+.case h3 { font-size: 1.15rem; margin-bottom: 10px; }
+.case .headline-stat { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 600; color: var(--teal); margin-bottom: 6px; }
+.case .headline-stat + p { margin-top: 0; }
+.case p { color: var(--ink-soft); font-size: 0.92rem; margin: 0 0 16px; }
+.case .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+.badge { background: var(--teal-light); color: var(--teal); padding: 4px 10px; border-radius: 99px; font-size: 0.74rem; font-weight: 600; }
+.case .read-link { margin-top: auto; font-weight: 600; font-size: 0.9rem; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.case .read-link:hover { color: var(--teal); }
+.case .read-link .arrow { transition: transform 0.18s; }
+.case .read-link:hover .arrow { transform: translateX(3px); }
+
+/* =========================================================================
+   8. SKILLS
+   ========================================================================= */
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; }
+.skill-group .label { display: block; margin-bottom: 12px; }
+.pills { display: flex; flex-wrap: wrap; gap: 9px; }
+.pill { background: var(--card); border: 1px solid var(--line); padding: 7px 14px; border-radius: 6px; font-size: 0.87rem; font-weight: 500; }
+
+/* =========================================================================
+   9. FOOTER
+   ========================================================================= */
+footer { background: var(--card); padding: 46px 0; border-top: 1px solid var(--line); text-align: center; }
+.footer-content p { margin: 7px 0; color: var(--ink-soft); font-size: 0.92rem; }
+.footer-content a { color: var(--teal); text-decoration: none; font-weight: 600; }
+.footer-content a:hover { text-decoration: underline; }
+.footer-content .fineprint { font-family: var(--font-mono); font-size: 0.75rem; margin-top: 22px; color: #9aa2ad; }
 </style>
 </head>
 <body>
 
 <nav>
   <div class="container">
-    <a href="#" class="logo">Jithendra Yerramsetti</a>
+    <a href="#" class="logo">Jithendra<span>.</span>Yerramsetti</a>
     <div class="links">
       <a href="#about">About</a>
-      <a href="#projects">Projects</a>
       <a href="#experience">Experience</a>
+      <a href="#projects">Case Files</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
     </div>
@@ -153,45 +251,72 @@ footer { background: #fff; padding: 50px 0; border-top: 1px solid var(--border);
 
 <header class="hero" id="about">
   <div class="container hero-grid">
-    
-    <div>
-      <span class="tag">Credit Risk Strategy & Analytics</span>
+
+    <div style="position:relative;">
+      <span class="label">Credit Risk Strategy &amp; Analytics</span>
       <h1>Jithendra Yerramsetti</h1>
-      <div class="subtitle">Credit Risk professional with 4+ years of experience across unsecured lending—education loans, personal loans, and BNPL.</div>
-      
+      <div class="subtitle">4+ years underwriting, portfolio risk &amp; credit strategy across unsecured lending</div>
+
       <p class="lead">
-        Designing underwriting strategies, improving portfolio quality and solving lending problems using analytics. This website documents the key projects I've worked on during my professional journey.
+        I design underwriting policy, build credit risk models, and turn loan-level data into
+        decisions — across education loans, personal loans, and BNPL. This site walks through
+        a few of the case files behind that work.
       </p>
 
       <div class="btns">
-        <a class="btn primary" href="#projects">View Case Studies</a>
+        <a class="btn primary" href="#projects">View Case Files</a>
         <a class="btn secondary" href="mailto:jithendrayerramsetti@gmail.com">Contact Me</a>
+      </div>
+
+      <!-- SIGNATURE ELEMENT: the "APPROVED" stamp.
+           Grounded in the subject's own world — this is literally the mark
+           stamped on an approved loan file. Purely decorative/inline SVG,
+           safe to delete this whole <div class="stamp"> block if you'd
+           rather not have it. -->
+      <!-- <div class="stamp" aria-hidden="true">
+        <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="70" cy="70" r="62" fill="none" stroke="#0F766E" stroke-width="3" stroke-dasharray="4 5"/>
+          <circle cx="70" cy="70" r="50" fill="none" stroke="#0F766E" stroke-width="1.5"/>
+          <text x="70" y="62" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="15" font-weight="700" fill="#0F766E" letter-spacing="1">APPROVED</text>
+          <text x="70" y="80" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="7.5" fill="#0F766E" letter-spacing="2">UNDERWRITER REVIEW</text>
+          <text x="70" y="94" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="7.5" fill="#0F766E" letter-spacing="1">J. YERRAMSETTI</text>
+        </svg>
+      </div>
+    </div> -->
+
+    <!-- CASE FILE SUMMARY CARD — replaces the old plain stats box.
+         Edit the four <div class="stat"> rows to update your details. -->
+    <div class="file-card">
+      <div class="file-head">
+        <span>REF: CR&#8209;2026&#8209;01</span>
+        <span>PROFILE SUMMARY</span>
+      </div>
+      <div class="file-body">
+        <div class="stat"><span>Location</span><strong>Bengaluru</strong></div>
+        <div class="stat"><span>Experience</span><strong>4+ Years</strong></div>
+        <div class="stat"><span>Domain</span><strong>Unsecured Lending</strong></div>
+        <div class="stat"><span>Education</span><strong>B.Tech, BIT Mesra</strong></div>
       </div>
     </div>
 
-    <div class="side">
-      <h3>Professional Snapshot</h3>
-      <div class="stat"><span>Location</span><strong>Bengaluru</strong></div>
-      <div class="stat"><span>Experience</span><strong>4+ Years</strong></div>
-      <div class="stat"><span>Domain</span><strong>Unsecured Lending</strong></div>
-      <div class="stat"><span>Education</span><strong>B.Tech, BIT Mesra (84%)</strong></div>
-    </div>
   </div>
 </header>
 
 
-   <section id="experience" style="background: #ffffff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+<section id="experience">
   <div class="container">
     <div class="section-head">
+      <span class="label">Track Record</span>
       <h2>Professional Experience</h2>
     </div>
 
     <div class="timeline">
-      
+
+      <!-- JOB ENTRY — copy this <div class="job"> block to add another role -->
       <div class="job">
         <div class="jobhead">
           <h3>Mpower Financing</h3>
-          <span class="date">Mar 2024 - Present</span>
+          <span class="date">Mar 2024 &ndash; Present</span>
         </div>
         <div class="job-role">Sr. Risk Analyst</div>
         <ul>
@@ -205,11 +330,11 @@ footer { background: #fff; padding: 50px 0; border-top: 1px solid var(--border);
       <div class="job">
         <div class="jobhead">
           <h3>Axio Finance (formerly Capital Float)</h3>
-          <span class="date">Feb 2022 - Mar 2024</span>
+          <span class="date">Feb 2022 &ndash; Mar 2024</span>
         </div>
         <div class="job-role">Credit Risk Analyst</div>
         <ul>
-          <li>Owned cross-sell risk strategy for Personal Loans sourced from BNPL base; scaled disbursals from ₹10 Cr to ₹150 Cr/month, while maintaining cohort losses under 3%.</li>
+          <li>Owned cross-sell risk strategy for Personal Loans sourced from BNPL base; scaled disbursals from &#8377;10 Cr to &#8377;150 Cr/month, while maintaining cohort losses under 3%.</li>
           <li>Automated pre-approved user base targeting using Amazon SageMaker, freeing up 30% analyst bandwidth for strategic initiatives.</li>
         </ul>
       </div>
@@ -218,88 +343,106 @@ footer { background: #fff; padding: 50px 0; border-top: 1px solid var(--border);
   </div>
 </section>
 
+
 <section id="projects">
   <div class="container">
     <div class="section-head">
-      <h2>Key Projects & Initiatives</h2>
-      <p class="section-desc">Selected strategies and optimizations driving portfolio growth and mitigating risk.</p>
+      <span class="label">Selected Work</span>
+      <h2>Case Files</h2>
+      <p class="section-desc">Short summaries below — open any case file for the full write-up: context, approach, charts, and outcome.</p>
     </div>
 
-    <div class="ledger-row">
-      <div class="row-content">
-        <h3>Underwriting Optimization & Risk Strategy</h3>
-        <p>Reduced CAC by 25% and lifetime losses by 15% through top-of-funnel pruning without impacting business bottom line. Piloted a refinance product to expand product offering, targeting a $50M annual scale. Developed a risk-based gap funding strategy, improving approval rates by 10% and lowering portfolio risk by 5%.</p>
+    <div class="case-grid">
+
+      <!-- ==================================================================
+           CASE FILE ENTRY — copy this whole <article class="case"> block
+           to add a new project. Fields to edit:
+             .case-ref        -> case file number (CF-01, CF-02, ...)
+             h3                -> project title
+             .headline-stat    -> the one number you want to lead with
+             <p>                -> one or two line summary
+             .badges            -> topic tags
+             .read-link href    -> the case-study HTML page it links to
+           ================================================================== -->
+      <article class="case">
+        <div class="case-ref">CASE FILE &middot; CF&#8209;01</div>
+        <h3>Underwriting Optimization &amp; Risk Strategy</h3>
+        <div class="headline-stat">&minus;15% lifetime loss</div>
+        <p>Reduced CAC by 25% and lifetime losses by 15% through top-of-funnel pruning, plus a risk-based gap funding strategy that lifted approvals 10%.</p>
         <div class="badges">
           <span class="badge">Risk Strategy</span>
           <span class="badge">CAC Optimization</span>
-          <span class="badge">Product Piloting</span>
         </div>
-      </div>
-    </div>
+        <a class="read-link" href="case-study-underwriting-optimization.html">Read case study <span class="arrow">&rarr;</span></a>
+      </article>
 
-    <div class="ledger-row">
-      <div class="row-content">
-        <h3>Collections Strategy (BNPL & Personal Loan)</h3>
-        <p>Developed an ML model and implemented a targeted collection strategy, reducing bounce rates by 20% and improving recovery rates by 15%. Helped Collections team meet targets without proportionate increase in Ops capacity.</p>
+      <article class="case">
+        <div class="case-ref">CASE FILE &middot; CF&#8209;02</div>
+        <h3>Collections Strategy (BNPL &amp; Personal Loan)</h3>
+        <div class="headline-stat">+15% recovery</div>
+        <p>Built an ML-driven targeted collections model, cutting bounce rates 20% and lifting recovery 15% without added Ops headcount.</p>
         <div class="badges">
           <span class="badge">Machine Learning</span>
-          <span class="badge">Collections Analytics</span>
-          <span class="badge">Operational Efficiency</span>
+          <span class="badge">Collections</span>
         </div>
-      </div>
-    </div>
+        <!-- Point this at a new case-study page once you've written one,
+             e.g. href="case-study-collections-strategy.html" -->
+        <a class="read-link" href="#">Read case study <span class="arrow">&rarr;</span></a>
+      </article>
 
-    <div class="ledger-row">
-      <div class="row-content">
+      <article class="case">
+        <div class="case-ref">CASE FILE &middot; CF&#8209;03</div>
         <h3>Underwriting Policy Innovation</h3>
-        <p>Developed a Personal Loan Top-up Loan Policy to boost customer lifetime value. Designed a subprime loan product leveraging BNPL repayment history and alternative data, expanding loan accessibility to underserved customers with 90% on-time repayment. Piloted a new underwriting policy for open-market personal loans.</p>
+        <div class="headline-stat">90% on-time</div>
+        <p>Designed a subprime product using BNPL repayment history and alternative data, plus a top-up loan policy to grow customer LTV.</p>
         <div class="badges">
           <span class="badge">Policy Design</span>
           <span class="badge">Alternative Data</span>
-          <span class="badge">Subprime Lending</span>
         </div>
-      </div>
-    </div>
+        <a class="read-link" href="#">Read case study <span class="arrow">&rarr;</span></a>
+      </article>
 
-    <div class="ledger-row">
-      <div class="row-content">
-        <h3>Pre-Approved Base Automation & Portfolio Monitoring</h3>
-        <p>Automated top-of-the-funnel targeting using Amazon SageMaker, optimizing resource allocation and freeing up bandwidth for strategic tasks. Improved base quality and conversion through behavioral segmentation and iterative testing. Tracked portfolio performance month-on-month, setting up monitoring dashboard cron jobs using Holistics for timely identification of abnormal events.</p>
+      <article class="case">
+        <div class="case-ref">CASE FILE &middot; CF&#8209;04</div>
+        <h3>Pre-Approved Base Automation</h3>
+        <div class="headline-stat">30% bandwidth freed</div>
+        <p>Automated top-of-funnel targeting on Amazon SageMaker and stood up Holistics dashboards for month-on-month portfolio monitoring.</p>
         <div class="badges">
-          <span class="badge">Amazon SageMaker</span>
-          <span class="badge">Holistics</span>
-          <span class="badge">Automation</span>
+          <span class="badge">SageMaker</span>
+          <span class="badge">Monitoring</span>
         </div>
-      </div>
+        <a class="read-link" href="#">Read case study <span class="arrow">&rarr;</span></a>
+      </article>
+
     </div>
-    </div>
+  </div>
 </section>
 
 
 <section id="skills">
   <div class="container">
     <div class="section-head">
+      <span class="label">Toolkit</span>
       <h2>Core Competencies</h2>
     </div>
-    
+
     <div class="skills-grid">
-      
       <div class="skill-group">
-        <div class="label">Skills and Tools</div>
+        <span class="label">Skills &amp; Tools</span>
         <div class="pills">
           <span class="pill">PostgreSQL</span>
           <span class="pill">Amazon Redshift</span>
           <span class="pill">Amazon SageMaker</span>
           <span class="pill">Amazon S3</span>
           <span class="pill">Altair Analytics Workbench</span>
-          <span class="pill">Holistics (Dashboarding Tool)</span>
+          <span class="pill">Holistics</span>
           <span class="pill">Advanced Excel</span>
           <span class="pill">Python</span>
         </div>
       </div>
 
       <div class="skill-group">
-        <div class="label">Risk & Strategy</div>
+        <span class="label">Risk &amp; Strategy</span>
         <div class="pills">
           <span class="pill">Underwriting Policy</span>
           <span class="pill">Portfolio Monitoring</span>
@@ -307,27 +450,17 @@ footer { background: #fff; padding: 50px 0; border-top: 1px solid var(--border);
           <span class="pill">Statistical Modeling</span>
         </div>
       </div>
-
-      <!-- <div class="skill-group">
-        <div class="label">Tools & Execution</div>
-        <div class="pills">
-          <span class="pill">Redshift</span>
-          
-          <span class="pill">Team Management</span>
-        </div>
-      </div> -->
-
     </div>
   </div>
 </section>
 
+
 <footer id="contact">
   <div class="container footer-content">
-    <!-- <h3 style="margin-top: 0;">Jithendra Sai Krishna Yerramsetti</h3> -->
     <p>Email: <a href="mailto:jithendrayerramsetti@gmail.com">jithendrayerramsetti@gmail.com</a></p>
     <p>Phone: (+91) 7680899482</p>
     <p>LinkedIn: <a href="https://linkedin.com/in/jithendrayerramsetti" target="_blank">linkedin/jithendrayerramsetti</a></p>
-    <p style="margin-top: 30px; font-size: 0.9rem;">© 2026 All rights reserved. Data Shown in the projects is mocked up</p>
+    <p class="fineprint">&copy; 2026 &middot; Figures shown in case studies are illustrative / mocked up</p>
   </div>
 </footer>
 
