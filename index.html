@@ -147,6 +147,7 @@ nav .links a:hover { color: var(--ink); background: var(--card); }
 .stat:last-child { border-bottom: none; padding-bottom: 0; }
 .stat span:first-child { color: var(--ink-soft); }
 .stat strong { font-family: var(--font-mono); font-weight: 600; color: var(--ink); }
+.stat.stack { flex-direction: column; align-items: flex-start; gap: 4px; }
 
 /* BREAKPOINT: tablet — stack hero into a single column */
 @media (max-width: 900px) {
@@ -263,7 +264,7 @@ footer { background: var(--card); padding: 44px 0; border-top: 1px solid var(--l
         <div class="stat"><span>Location</span><strong>Bengaluru</strong></div>
         <div class="stat"><span>Experience</span><strong>4+ Years</strong></div>
         <div class="stat"><span>Domain</span><strong>Unsecured Lending</strong></div>
-        <div class="stat"><span>Products</span><strong>Education Loans, Personal Loans, BNPL</strong></div>
+        <div class="stat stack"><span>Products</span><strong>Education Loans, Personal Loans, BNPL</strong></div>
         <div class="stat"><span>Education</span><strong>B.Tech, BIT Mesra</strong></div>
       </div>
     </div>
