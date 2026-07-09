@@ -10,7 +10,7 @@
   HOW THIS FILE IS ORGANIZED
   ============================================================================
   1. CSS VARIABLES  – every color/spacing lives in :root. Change once, updates
-                       everywhere. This version is DARK MODE by default.
+                       everywhere. This version is LIGHT MODE, amber accent.
   2. BASE STYLES    – resets, layout container, typography
   3. COMPONENTS     – nav, hero, case files, timeline, skills, footer
   4. RESPONSIVE     – breakpoints at 900px (tablet) and 560/640px (phone).
@@ -25,16 +25,13 @@
   A NOTE ON EDITING BY HAND:
   If you comment out a block that itself contains other HTML, make sure the
   closing "-->
-  <!-- " sits immediately after that block — not further down the -->
-  <!-- file. A stray "<!--" swallows everything until the *next* "-->
-  <!-- " it finds, --> 
-  <!-- which can silently eat a closing </div> and break the whole layout below -->
-  <!-- it (this happened in the last edit — the stamp block's comment ate a -->
-  <!-- closing </div> for the hero column). Safer alternative: use -->
-  <!-- `display:none;` on the element instead of an HTML comment when testing -->
-  <!-- what to hide. -->
+  <!-- " sits immediately after that block — not further down the
+  file. A stray "<!--" swallows everything until the *next* "-->
+  <!-- " it finds, -->
+  <!-- which can silently eat a closing </div> and break the layout below it. -->
+  <!-- Safer alternative: use `style="display:none;"` on the element instead of -->
+  <!-- an HTML comment when testing what to hide. -->
   <!-- ============================================================================ -->
-
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,17 +39,18 @@
 
 <style>
 /* =========================================================================
-   1. CSS VARIABLES — dark theme
+   1. CSS VARIABLES — light theme, amber accent
    ========================================================================= */
 :root {
-  --bg:         #0C0E11;   /* page background — near-black, not pure black */
-  --card:       #15181D;   /* card / panel background */
-  --card-hover: #1A1E24;
-  --ink:        #E9EBEE;   /* primary text — off-white */
-  --ink-soft:   #97A0AB;   /* secondary text — muted gray */
-  --teal:       #2DD4BF;   /* accent — brightened for dark bg contrast */
-  --teal-dim:   #1B4B45;   /* teal used for subtle fills/badges */
-  --line:       #23272E;   /* hairline borders */
+  --paper:      #F5F3EE;   /* page background — warm paper tone */
+  --card:       #FFFFFF;   /* card / panel background */
+  --card-hover: #FBF8F2;
+  --ink:        #1F2937;   /* primary text */
+  --ink-soft:   #5B6472;   /* secondary text */
+  --amber:      #A9762E;   /* accent — links, tags, highlights */
+  --amber-tint: #F3E7D3;   /* pale amber for badge backgrounds */
+  --line:       #E1DDD1;   /* hairline borders */
+  --shadow:     0 10px 26px rgba(31,41,55,0.06);
 
   --font-display: 'Source Serif 4', Georgia, serif;
   --font-body:    'IBM Plex Sans', -apple-system, sans-serif;
@@ -60,9 +58,6 @@
 
   --max-w: 1080px;
   --radius: 10px;
-
-  /* Fluid spacing — scales down automatically on small screens without
-     needing separate rules for every property. */
   --section-pad: clamp(40px, 7vw, 72px);
 }
 
@@ -74,15 +69,15 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: var(--font-body);
-  background: var(--bg);
+  background: var(--paper);
   color: var(--ink);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
 .container { width: min(var(--max-w), 92%); margin: 0 auto; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; margin: 0; color: #fff; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; margin: 0; color: var(--ink); }
 a { color: inherit; }
-:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
 img { max-width: 100%; display: block; }
 
 .label {
@@ -91,7 +86,7 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--amber);
 }
 
 /* =========================================================================
@@ -99,13 +94,13 @@ img { max-width: 100%; display: block; }
    ========================================================================= */
 nav {
   position: sticky; top: 0; z-index: 20;
-  background: rgba(12,14,17,0.85);
+  background: rgba(245,243,238,0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
 nav .container { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; }
-.logo { font-family: var(--font-display); font-weight: 600; font-size: 1rem; text-decoration: none; color: #fff; }
-.logo span { color: var(--teal); }
+.logo { font-family: var(--font-display); font-weight: 600; font-size: 1rem; text-decoration: none; color: var(--ink); }
+.logo span { color: var(--amber); }
 nav .links { display: flex; gap: 4px; }
 nav .links a {
   text-decoration: none; color: var(--ink-soft); font-weight: 600;
@@ -129,28 +124,28 @@ nav .links a:hover { color: var(--ink); background: var(--card); }
 .hero-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: 48px; align-items: start; }
 
 .hero h1 { font-size: clamp(2.1rem, 5vw, 2.9rem); line-height: 1.1; margin: 14px 0 16px; }
-.hero .subtitle { font-family: var(--font-mono); font-size: clamp(0.85rem, 2vw, 1rem); color: var(--teal); font-weight: 600; margin-bottom: 16px; }
+.hero .subtitle { font-family: var(--font-mono); font-size: clamp(0.85rem, 2vw, 1rem); color: var(--amber); font-weight: 600; margin-bottom: 16px; }
 .hero .lead { font-size: 1.02rem; color: var(--ink-soft); max-width: 560px; margin-bottom: 28px; }
 
 .btns { display: flex; flex-wrap: wrap; gap: 12px; }
 .btns .btn { display: inline-block; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.92rem; transition: 0.2s; }
-.btn.primary { background: var(--teal); color: #06120F; }
-.btn.primary:hover { opacity: 0.85; }
+.btn.primary { background: var(--amber); color: #fff; }
+.btn.primary:hover { opacity: 0.88; }
 .btn.secondary { border: 1px solid var(--line); background: transparent; color: var(--ink); }
-.btn.secondary:hover { border-color: var(--teal); color: var(--teal); }
+.btn.secondary:hover { border-color: var(--amber); color: var(--amber); }
 
 /* Profile summary card */
-.file-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.file-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
 .file-card .file-head {
   padding: 12px 20px; border-bottom: 1px solid var(--line);
   font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em;
   color: var(--ink-soft); text-transform: uppercase;
 }
 .file-card .file-body { padding: 20px; }
-.stat { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+.stat { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 0.9rem; }
 .stat:last-child { border-bottom: none; padding-bottom: 0; }
 .stat span:first-child { color: var(--ink-soft); }
-.stat strong { font-family: var(--font-mono); font-weight: 600; color: #fff; }
+.stat strong { font-family: var(--font-mono); font-weight: 600; color: var(--ink); }
 
 /* BREAKPOINT: tablet — stack hero into a single column */
 @media (max-width: 900px) {
@@ -169,15 +164,15 @@ h2 { font-size: clamp(1.5rem, 3vw, 1.9rem); }
 /* =========================================================================
    6. EXPERIENCE (timeline)
    ========================================================================= */
-#experience { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+#experience { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .timeline { display: grid; gap: 20px; }
 .jobhead { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 12px; flex-wrap: wrap; gap: 6px; }
 .jobhead h3 { font-size: 1.15rem; }
 .jobhead .date { font-family: var(--font-mono); color: var(--ink-soft); font-weight: 600; font-size: 0.8rem; }
-.job-role { font-family: var(--font-mono); font-weight: 600; color: var(--teal); margin-bottom: 12px; font-size: 0.86rem; }
+.job-role { font-family: var(--font-mono); font-weight: 600; color: var(--amber); margin-bottom: 12px; font-size: 0.86rem; }
 .job ul { margin: 0; padding-left: 18px; color: var(--ink-soft); }
 .job li { margin-bottom: 8px; }
-.job li::marker { color: var(--teal); }
+.job li::marker { color: var(--amber); }
 .job:not(:last-child) { padding-bottom: 20px; border-bottom: 1px solid var(--line); }
 
 /* =========================================================================
@@ -189,16 +184,16 @@ h2 { font-size: clamp(1.5rem, 3vw, 1.9rem); }
   background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 24px; display: flex; flex-direction: column; transition: 0.18s;
 }
-.case:hover { border-color: var(--teal); background: var(--card-hover); }
+.case:hover { border-color: var(--amber); box-shadow: var(--shadow); transform: translateY(-2px); }
 
 .case .case-ref { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-soft); letter-spacing: 0.06em; margin-bottom: 10px; }
-.case h3 { font-size: 1.08rem; margin-bottom: 10px; color: #fff; }
-.case .headline-stat { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 600; color: var(--teal); margin-bottom: 6px; }
+.case h3 { font-size: 1.08rem; margin-bottom: 10px; }
+.case .headline-stat { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 600; color: var(--amber); margin-bottom: 6px; }
 .case p { color: var(--ink-soft); font-size: 0.9rem; margin: 0 0 16px; }
 .case .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
-.badge { background: var(--teal-dim); color: var(--teal); padding: 4px 10px; border-radius: 99px; font-size: 0.72rem; font-weight: 600; }
+.badge { background: var(--amber-tint); color: var(--amber); padding: 4px 10px; border-radius: 99px; font-size: 0.72rem; font-weight: 600; }
 .case .read-link { margin-top: auto; font-weight: 600; font-size: 0.88rem; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-.case .read-link:hover { color: var(--teal); }
+.case .read-link:hover { color: var(--amber); }
 .case .read-link .arrow { transition: transform 0.18s; }
 .case .read-link:hover .arrow { transform: translateX(3px); }
 
@@ -218,18 +213,18 @@ h2 { font-size: clamp(1.5rem, 3vw, 1.9rem); }
 /* =========================================================================
    9. FOOTER
    ========================================================================= */
-footer { padding: 44px 0; border-top: 1px solid var(--line); text-align: center; }
+footer { background: var(--card); padding: 44px 0; border-top: 1px solid var(--line); text-align: center; }
 .footer-content p { margin: 6px 0; color: var(--ink-soft); font-size: 0.9rem; }
-.footer-content a { color: var(--teal); text-decoration: none; font-weight: 600; }
+.footer-content a { color: var(--amber); text-decoration: none; font-weight: 600; }
 .footer-content a:hover { text-decoration: underline; }
-.footer-content .fineprint { font-family: var(--font-mono); font-size: 0.72rem; margin-top: 20px; color: #565C64; }
+.footer-content .fineprint { font-family: var(--font-mono); font-size: 0.72rem; margin-top: 20px; color: #9A968A; }
 </style>
 </head>
 <body>
 
 <nav>
   <div class="container">
-    <a href="#" class="logo">Jithendra<span>.</span>Yerramsetti</a>
+    <!-- <a href="#" class="logo">Jithendra<span>.</span>Yerramsetti</a> -->
     <div class="links">
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
@@ -245,12 +240,12 @@ footer { padding: 44px 0; border-top: 1px solid var(--line); text-align: center;
 
     <div>
       <span class="label">Credit Risk Strategy &amp; Analytics</span>
-      <h1>Jithendra Yerramsetti</h1>
+      <h1>Jithendra Yerramsetti<span>.</span></h1>
       <div class="subtitle">4+ years underwriting, portfolio risk &amp; credit strategy across unsecured lending</div>
 
       <p class="lead">
         I design underwriting policy, build credit risk models, and turn loan-level data into
-        decisions — across education loans, personal loans, and BNPL. This site walks through
+        decisions — across unsecured lending space. This site walks through
         a few of the case files behind that work.
       </p>
 
@@ -266,7 +261,7 @@ footer { padding: 44px 0; border-top: 1px solid var(--line); text-align: center;
       <div class="file-body">
         <div class="stat"><span>Location</span><strong>Bengaluru</strong></div>
         <div class="stat"><span>Experience</span><strong>4+ Years</strong></div>
-        <div class="stat"><span>Domain</span><strong>Unsecured Lending</strong></div>
+        <div class="stat"><span>Domain</span><strong>Unsecured Lending (Education Loans, Personal Loans, BNPL)</strong></div>
         <div class="stat"><span>Education</span><strong>B.Tech, BIT Mesra</strong></div>
       </div>
     </div>
@@ -292,16 +287,16 @@ footer { padding: 44px 0; border-top: 1px solid var(--line); text-align: center;
         </div>
         <div class="job-role">Sr. Risk Analyst</div>
         <ul>
-          <li>Leading credit risk initiatives to support portfolio scale-up sustainably from $100M to $1B AUM in international education loans.</li>
-          <li>Improved credit decision turnaround by 20% QoQ through policy refinement and automation of underwriting workflows.</li>
-          <li>Managing a team of 3 analysts; driving process enhancements to improve efficiency and compliance in credit decisioning.</li>
-          <li>Ensured alignment between credit risk execution and broader business strategy, enhancing stakeholder coordination and delivery discipline.</li>
+          <li>Owned end-to-end credit risk strategy initiatives supporting the portfolio's growth from <strong>$100M to $1B AUM</strong>, balancing sustainable growth with portfolio quality.</li>
+          <li>Optimized underwriting policies and automated decision workflows, improving credit approval turnaround time by <strong>20%</strong> while strengthening decision consistency.</li>
+          <li>Led a team of three analysts, driving process standardization, quality assurance, and continuous improvements across the credit underwriting function.</li>
+          <li>Collaborated cross-functionally with Business, Product, Operations, and Engineering teams to design and implement scalable credit policies aligned with growth objectives.</li>
         </ul>
       </div>
 
       <div class="job">
         <div class="jobhead">
-          <h3>Axio Finance (formerly Capital Float)</h3>
+          <h3>Axio Finance (acquired by Amazon)</h3>
           <span class="date">Feb 2022 &ndash; Mar 2024</span>
         </div>
         <div class="job-role">Credit Risk Analyst</div>
@@ -405,7 +400,7 @@ footer { padding: 44px 0; border-top: 1px solid var(--line); text-align: center;
           <span class="pill">Amazon SageMaker</span>
           <span class="pill">Amazon S3</span>
           <span class="pill">Altair Analytics Workbench</span>
-          <span class="pill">Holistics</span>
+          <span class="pill">Holistics (Dashboarding Tool)</span>
           <span class="pill">Advanced Excel</span>
           <span class="pill">Python</span>
         </div>
@@ -430,7 +425,7 @@ footer { padding: 44px 0; border-top: 1px solid var(--line); text-align: center;
     <p>Email: <a href="mailto:jithendrayerramsetti@gmail.com">jithendrayerramsetti@gmail.com</a></p>
     <p>Phone: (+91) 7680899482</p>
     <p>LinkedIn: <a href="https://linkedin.com/in/jithendrayerramsetti" target="_blank">linkedin/jithendrayerramsetti</a></p>
-    <p class="fineprint">&copy; 2026 &middot; Figures shown in case studies are illustrative / mocked up</p>
+    <p class="fineprint">&copy; 2026 &middot; Data shown in case studies are illustrative</p>
   </div>
 </footer>
 
