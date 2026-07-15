@@ -5,19 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Case File CF-01 — Underwriting Optimization &amp; Risk Strategy | Jithendra Yerramsetti</title>
 
-<!--
-  ============================================================================
-  THIS IS THE CASE STUDY TEMPLATE (light theme, matches index.html).
-  To add a new case study:
-    1. Duplicate this file, rename it e.g. case-study-collections-strategy.html
-    2. Update <title>, the header block, and every section below
-    3. In index.html, point that project's "Read case study" href at this
-       new filename.
-  The CSS variables in :root are copied from index.html — if you change the
-  palette there, mirror the change here to keep both pages consistent.
-  ============================================================================
--->
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -62,7 +49,6 @@ img { max-width: 100%; display: block; }
 .stat-strip .cell { background: var(--card); padding: 20px 16px; text-align: center; }
 .stat-strip .num { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 600; color: var(--amber); }
 .stat-strip .cap { font-size: 0.8rem; color: var(--ink-soft); margin-top: 4px; }
-/* BREAKPOINT: phone — stack the three stat cells */
 @media (max-width: 560px) { .stat-strip { grid-template-columns: 1fr; } }
 
 .case-section { padding: 36px 0; border-bottom: 1px solid var(--line); }
@@ -77,7 +63,6 @@ img { max-width: 100%; display: block; }
 .exhibit .ex-label { font-family: var(--font-mono); font-size: 0.73rem; color: var(--amber); font-weight: 600; letter-spacing: 0.05em; margin-bottom: 14px; }
 .exhibit .ex-caption { color: var(--ink-soft); font-size: 0.86rem; margin-top: 14px; }
 
-/* Simple bar chart — EDIT the inline "style" heights + .val text to change values */
 .bar-chart { display: flex; align-items: flex-end; gap: clamp(16px, 4vw, 40px); height: 180px; padding: 0 4px; overflow-x: auto; }
 .bar-group { display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; min-width: 90px; height: 100%; justify-content: flex-end; }
 .bar-group .bars { display: flex; gap: 8px; align-items: flex-end; height: 140px; }
@@ -86,8 +71,9 @@ img { max-width: 100%; display: block; }
 .bar.after  { background: var(--amber); }
 .bar .val { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600; white-space: nowrap; color: var(--ink); }
 .bar-group .grp-label { font-size: 0.78rem; color: var(--ink-soft); text-align: center; }
-.legend { display: flex; gap: 18px; margin-top: 18px; font-size: 0.8rem; color: var(--ink-soft); }
+.legend { display: flex; gap: 18px; margin-top: 18px; font-size: 0.8rem; color: var(--ink-soft); flex-wrap: wrap; }
 .legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+.legend .dot.circle { border-radius: 50%; }
 
 .image-placeholder {
   border: 1.5px dashed var(--line); border-radius: 6px; min-height: 200px;
@@ -95,6 +81,9 @@ img { max-width: 100%; display: block; }
   color: var(--ink-soft); font-family: var(--font-mono); font-size: 0.8rem;
   text-align: center; padding: 20px;
 }
+
+.svg-wrap { width: 100%; overflow-x: auto; }
+.svg-wrap svg { display: block; width: 100%; height: auto; }
 
 footer { background: var(--card); padding: 36px 0; border-top: 1px solid var(--line); text-align: center; }
 footer p { color: var(--ink-soft); font-size: 0.86rem; margin: 6px 0; }
@@ -114,8 +103,6 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
   <div class="container">
     <div class="meta-row">
       <span><strong>Case File</strong> 2026-CF01</span>
-      <!-- <span><strong>Product</strong> Unsecured Lending</span> -->
-      <!-- <span><strong>Role</strong> Credit Risk Lead</span> -->
     </div>
     <h1>Underwriting Optimization &amp; Risk Strategy</h1>
     <p class="dek">
@@ -136,12 +123,12 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
     <span class="label">Situation</span>
     <h2>The problem</h2>
     <p>
-      During the 1→10 growth phase, we ran multiple experiments across acquisition, underwriting, and portfolio management 
-      to understand customer behavior and key risk drivers. As the business scaled beyond 10, the focus shifted to 
+      During the 1&rarr;10 growth phase, we ran multiple experiments across acquisition, underwriting, and portfolio management
+      to understand customer behavior and key risk drivers. As the business scaled beyond 10, the focus shifted to
       profitable, sustainable growth.
-      The challenge was that CAC and portfolio losses were rising together. 
+      The challenge was that CAC and portfolio losses were rising together.
       Tightening credit policy reduced losses but slowed growth, while pursuing aggressive growth increased risk.
-      The objective was to identify customer segments and strategy changes that could reduce both acquisition costs and 
+      The objective was to identify customer segments and strategy changes that could reduce both acquisition costs and
       credit losses simultaneously, improving unit economics without compromising growth.
     </p>
   </section>
@@ -151,21 +138,19 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
     <h2>What I did</h2>
     <ul>
       <li>Ran univariate and multivariate analysis to isolate high-risk, unprofitable microsegments; excluding the worst ~10% of these microsegments cut portfolio losses by 15%.</li>
-      <li>Profiled CAC by acquisition channel and policy segment (low to high) and found the highest-CAC segments also had the lowest conversion and negligible portfolio contribution. 
+      <li>Profiled CAC by acquisition channel and policy segment (low to high) and found the highest-CAC segments also had the lowest conversion and negligible portfolio contribution.
         Redirected the 25% of CAC spend tied up in these segments toward higher-converting channels, with no loss in bottom-line volume.</li>
       <li>Designed a risk-based gap funding strategy — approving marginal-funding-gap applicants backed by strong probability-of-default confidence via partial-funding structures and pre-payment rates — lifting approval rates 10% without degrading expected loss.</li>
       <li>Reinvested the freed-up spend and underwriting capacity into a refinance product pilot, opening a new low-risk growth channel that fully offset the volume lost from segment pruning.</li>
-      <li><h2>Net result:<h2> growth held flat (breakeven) while losses fell 15–20%, CAC dropped 25% (redeployed, not cut), and approval rates rose 10%.</li>
-      
     </ul>
   </section>
 
   <section class="case-section">
     <span class="label">Analysis</span>
     <h2>What the data showed</h2>
-    <p>Two exhibits below — replace the values and image with your own when you adapt this template.</p>
+    <p>Three exhibits below — for illustrative purposes and doesn't represnet real data</p>
 
-    <!-- EXHIBIT 1: bar chart. Edit the .bar heights (inline style) and .val labels -->
+    <!-- EXHIBIT 1: indexed before/after bar chart -->
     <div class="exhibit">
       <div class="ex-label">EXHIBIT 1 &middot; Before vs. after policy change</div>
       <div class="bar-chart">
@@ -198,14 +183,94 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
       <p class="ex-caption">Indexed to a baseline of 100. Figures are illustrative.</p>
     </div>
 
-    <!-- EXHIBIT 2: image placeholder — swap for a real <img> tag when ready -->
+    <!-- EXHIBIT 2: segment-level CAC vs. loss quadrant scatter -->
     <div class="exhibit">
       <div class="ex-label">EXHIBIT 2 &middot; Segment-level loss vs. CAC map</div>
-      <div class="image-placeholder">
-        Drop a screenshot, chart export, or diagram here &mdash;<br>
-        e.g. &lt;img src="exhibit-2-segment-map.png" alt="Segment loss vs CAC"&gt;
+      <div class="svg-wrap">
+        <svg viewBox="0 0 700 420" xmlns="http://www.w3.org/2000/svg">
+          <!-- quadrant fills -->
+          <rect x="360" y="30" width="300" height="200" fill="var(--amber-tint)" opacity="0.6" />
+          <rect x="60" y="230" width="300" height="160" fill="#EEEDE6" opacity="0.6" />
+
+          <!-- gridlines -->
+          <line x1="60" y1="30" x2="60" y2="390" stroke="var(--line)" stroke-width="1.5" />
+          <line x1="60" y1="390" x2="660" y2="390" stroke="var(--line)" stroke-width="1.5" />
+          <line x1="360" y1="30" x2="360" y2="390" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 4" />
+          <line x1="60" y1="230" x2="660" y2="230" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 4" />
+
+          <!-- axis labels -->
+          <text x="360" y="412" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" fill="var(--ink-soft)">CAC (indexed) &rarr;</text>
+          <text x="24" y="210" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" fill="var(--ink-soft)" transform="rotate(-90 24 210)">Loss rate (indexed) &rarr;</text>
+
+          <!-- quadrant labels -->
+          <text x="650" y="48" text-anchor="end" font-family="IBM Plex Mono" font-size="11" font-weight="600" fill="var(--amber)">PRUNE</text>
+          <text x="70" y="248" text-anchor="start" font-family="IBM Plex Mono" font-size="11" font-weight="600" fill="var(--ink-soft)">CORE BOOK</text>
+
+          <!-- kept segments (muted) -->
+          <circle cx="130" cy="330" r="9" fill="#C9C4B6" />
+          <circle cx="180" cy="300" r="9" fill="#C9C4B6" />
+          <circle cx="220" cy="340" r="9" fill="#C9C4B6" />
+          <circle cx="270" cy="310" r="9" fill="#C9C4B6" />
+          <circle cx="150" cy="130" r="9" fill="#C9C4B6" />
+          <text x="150" y="115" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="var(--ink-soft)">watch</text>
+          <circle cx="470" cy="330" r="9" fill="#C9C4B6" />
+          <text x="470" y="315" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="var(--ink-soft)">watch</text>
+
+          <!-- flagged / pruned microsegments (amber, ~10% of tape) -->
+          <circle cx="480" cy="100" r="11" fill="var(--amber)" stroke="var(--ink)" stroke-width="1" />
+          <circle cx="540" cy="140" r="11" fill="var(--amber)" stroke="var(--ink)" stroke-width="1" />
+          <circle cx="590" cy="80" r="11" fill="var(--amber)" stroke="var(--ink)" stroke-width="1" />
+
+          <!-- axis origin -->
+          <text x="52" y="402" text-anchor="end" font-family="IBM Plex Mono" font-size="10" fill="var(--ink-soft)">0</text>
+        </svg>
       </div>
-      <p class="ex-caption">Swap this placeholder for the real chart image.</p>
+      <div class="legend">
+        <span><span class="dot circle" style="background:#C9C4B6;"></span>Retained segments</span>
+        <span><span class="dot circle" style="background:var(--amber);"></span>Flagged &amp; pruned (~10% of tape)</span>
+      </div>
+      <p class="ex-caption">Each point is a policy microsegment. Segments in the high-CAC / high-loss quadrant were excluded; everything else was retained. Positions are illustrative.</p>
+    </div>
+
+    <!-- EXHIBIT 3: univariate -> multivariate screening funnel -->
+    <div class="exhibit">
+      <div class="ex-label">EXHIBIT 3 &middot; Segmentation methodology</div>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- stage 1: full loan tape -->
+          <rect x="50" y="20" width="600" height="42" rx="4" fill="#EEEDE6" />
+          <text x="70" y="46" font-family="IBM Plex Sans" font-size="13" font-weight="600" fill="var(--ink)">Full loan tape</text>
+          <text x="630" y="46" text-anchor="end" font-family="IBM Plex Mono" font-size="12" fill="var(--ink-soft)">100%</text>
+
+          <!-- connector -->
+          <line x1="350" y1="62" x2="350" y2="76" stroke="var(--line)" stroke-width="2" />
+
+          <!-- stage 2: univariate screen -->
+          <rect x="110" y="76" width="480" height="42" rx="4" fill="#E4E0D2" />
+          <text x="130" y="102" font-family="IBM Plex Sans" font-size="13" font-weight="600" fill="var(--ink)">Univariate screen</text>
+          <text x="570" y="102" text-anchor="end" font-family="IBM Plex Mono" font-size="12" fill="var(--ink-soft)">candidate segments</text>
+
+          <!-- connector -->
+          <line x1="350" y1="118" x2="350" y2="132" stroke="var(--line)" stroke-width="2" />
+
+          <!-- stage 3: multivariate interaction screen -->
+          <rect x="170" y="132" width="360" height="42" rx="4" fill="#DACBA8" />
+          <text x="190" y="158" font-family="IBM Plex Sans" font-size="13" font-weight="600" fill="var(--ink)">Multivariate interaction screen</text>
+
+          <!-- connector -->
+          <line x1="350" y1="174" x2="350" y2="188" stroke="var(--line)" stroke-width="2" />
+
+          <!-- stage 4: flagged microsegments -->
+          <rect x="230" y="188" width="240" height="42" rx="4" fill="var(--amber)" />
+          <text x="250" y="214" font-family="IBM Plex Sans" font-size="13" font-weight="600" fill="#FFFFFF">Excluded microsegments</text>
+          <text x="450" y="214" text-anchor="end" font-family="IBM Plex Mono" font-size="12" fill="#FFFFFF">~10% of tape</text>
+        </svg>
+      </div>
+      <p class="ex-caption">
+        Univariate screening flagged single-variable drivers of loss (geography, channel, risk grade). Multivariate
+        screening then tested interactions between those variables to confirm compounding risk, narrowing the candidate
+        list down to the ~10% of the tape ultimately excluded — the cohort responsible for the 15% loss reduction.
+      </p>
     </div>
   </section>
 
@@ -213,10 +278,10 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
     <span class="label">Outcome</span>
     <h2>Result</h2>
     <p>
-      The reworked policy cut CAC by 25% and lifetime losses by 15%
-      simultaneously, while the gap funding strategy lifted approval
-      rates 10% without increasing portfolio risk &mdash; net effect,
-      a smaller and cheaper book of better-performing loans.
+      The three levers reinforced each other: pruning unprofitable microsegments freed capital, the freed CAC funded the
+      refinance pilot instead of disappearing from the budget, and the pilot's growth offset what pruning cost the top
+      of funnel. The net effect wasn't a smaller, more conservative book — it was the same growth trajectory on a
+      cheaper, better-performing base of loans.
     </p>
   </section>
 
@@ -236,7 +301,6 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
 <footer>
   <div class="container">
     <p>Jithendra Yerramsetti &middot; </p>
-      <!-- Credit Risk &amp; Portfolio Analytics</p> -->
     <p><a href="mailto:jithendrayerramsetti@gmail.com">jithendrayerramsetti@gmail.com</a></p>
     <p class="fineprint">© 2026 · Data shown in case studies are illustrative</p>
   </div>
