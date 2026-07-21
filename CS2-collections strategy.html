@@ -68,12 +68,16 @@ img { max-width: 100%; display: block; }
 
 /* Single-series bar chart — one bar per risk tier. Edit .bar heights + .val
    text to change the numbers; edit .grp-label text to rename tiers. */
-.bar-chart { display: flex; align-items: flex-end; gap: clamp(16px, 4vw, 36px); height: 180px; padding: 0 4px; overflow-x: auto; }
-.bar-group { display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; min-width: 84px; height: 100%; justify-content: flex-end; }
+.bar-chart { display: flex; align-items: flex-end; gap: clamp(10px, 4vw, 36px); height: 180px; padding: 0 4px; }
+.bar-group { display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; min-width: 0; height: 100%; justify-content: flex-end; }
 .bar-group .bars { display: flex; gap: 8px; align-items: flex-end; height: 140px; }
-.bar { width: 40px; border-radius: 4px 4px 0 0; position: relative; background: var(--accent); }
+.bar { width: clamp(24px, 8vw, 40px); border-radius: 4px 4px 0 0; position: relative; background: var(--accent); }
 .bar .val { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600; white-space: nowrap; color: var(--ink); }
 .bar-group .grp-label { font-size: 0.78rem; color: var(--ink-soft); text-align: center; }
+
+/* KS chart legend */
+.legend { display: flex; gap: 18px; margin-top: 14px; font-size: 0.8rem; color: var(--ink-soft); flex-wrap: wrap; }
+.legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
 
 /* Simple comparison table for the two methodologies */
 .compare-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
@@ -140,7 +144,7 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
       <li>Built a decision-tree based segmentation model using repayment history, cross-sell exposure, and acquisition-risk signals to classify accounts into priority tiers ahead of the due date.</li>
       <li>Split the strategy into a pre-due track (proactive outreach on the highest-risk segment before an account was ever late) and a post-due track (reactive handling once an account had bounced).</li>
       <li>Iterated the model from an account-level view to a relationship-level view &mdash; collections works at the level of the whole customer relationship, so an account that looked healthy on its own could still sit inside a risky relationship.</li>
-      <li>Separately designed a scorecard-based prioritization model for another portfolio, as a lighter-weight, continuously-updatable alternative where a full decision tree wasn't the right tool for the data available.</li>
+      <li>Separately designed a scorecard-based prioritization model for another portfolio, after finding that decision-tree buckets got too thin in the higher-risk tail to produce stable splits &mdash; the scorecard blends many weighted micro-signals instead of relying on volume within any single split.</li>
     </ul>
   </section>
 
@@ -157,7 +161,7 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
           <div class="grp-label">Tier 1<br>Low</div>
         </div>
         <div class="bar-group">
-          <div class="bars"><div class="bar" style="height:40%;"><span class="val">~20%</span></div></div>
+          <div class="bars"><div class="bar" style="height:24%;"><span class="val">~12%</span></div></div>
           <div class="grp-label">Tier 2<br>Moderate</div>
         </div>
         <div class="bar-group">
@@ -169,7 +173,7 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
           <div class="grp-label">Tier 4<br>Critical</div>
         </div>
       </div>
-      <p class="ex-caption">Share of expected bad accounts sitting in each risk tier. A small top tier concentrated roughly half of expected risk &mdash; the core justification for prioritizing collections effort rather than spreading it evenly.</p>
+      <p class="ex-caption">Share of expected bad accounts sitting in each risk tier (heights scaled relative to the largest tier, so Tier 4 fills the full chart height). A small top tier concentrated roughly half of expected risk &mdash; the core justification for prioritizing collections effort rather than spreading it evenly.</p>
     </div>
 
     <div class="exhibit">
@@ -186,12 +190,89 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
           </tr>
           <tr>
             <td>Scorecard</td>
-            <td>Portfolio needing a simpler, continuously-updatable ranking</td>
-            <td>Blends multiple risk signals into a single score, giving a smooth rank instead of discrete buckets.</td>
+            <td>Tail segments where tree buckets get too thin to stay statistically stable</td>
+            <td>Blends many weighted micro-signals into one continuous score, so no single split needs a large sample to be reliable.</td>
           </tr>
         </tbody>
       </table>
-      <p class="ex-caption">Model choice depended on how much behavioral history was available and how the collections team needed to act on the output &mdash; not a one-size-fits-all decision.</p>
+      <p class="ex-caption">Model choice came down to sample stability, not a preference for simplicity &mdash; the scorecard often draws on more signals than the tree, it just doesn't need enough volume within any one combination of them.</p>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <span class="label">Validation</span>
+    <h2>How the models were checked</h2>
+    <p>
+      A tiering strategy is only as good as its ability to hold up on
+      accounts the model hasn't seen yet &mdash; both models were validated
+      against held-out data, not just the population they were built on.
+      Five metrics did the actual work of gauging that.
+    </p>
+
+    <div class="exhibit">
+      <div class="ex-label">EXHIBIT 3 &middot; KS chart &mdash; separation between good and bad accounts</div>
+      <svg viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
+        <line x1="40" y1="200" x2="440" y2="200" stroke="var(--line)" stroke-width="1.5"/>
+        <line x1="40" y1="20" x2="40" y2="200" stroke="var(--line)" stroke-width="1.5"/>
+        <line x1="40" y1="110" x2="440" y2="110" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+        <text x="34" y="204" text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="10" fill="var(--ink-soft)">0%</text>
+        <text x="34" y="114" text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="10" fill="var(--ink-soft)">50%</text>
+        <text x="34" y="24" text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="10" fill="var(--ink-soft)">100%</text>
+
+        <!-- Good accounts: cumulative % captured, decile by decile -->
+        <polyline points="40,200 80,185.6 120,171.2 160,156.8 200,140.6 240,124.4 280,108.2 320,90.2 360,70.4 400,45.2 440,20" fill="none" stroke="#B9B2A2" stroke-width="2.5"/>
+        <!-- Bad accounts: cumulative % captured, decile by decile -->
+        <polyline points="40,200 80,155 120,119 160,92 200,70.4 240,56 280,45.2 320,36.2 360,29 400,23.6 440,20" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+
+        <!-- Max separation marker -->
+        <line x1="200" y1="70.4" x2="200" y2="140.6" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <text x="210" y="108" font-family="'IBM Plex Mono', monospace" font-size="11" font-weight="600" fill="var(--ink)">KS &#8776; 39</text>
+        <text x="210" y="122" font-family="'IBM Plex Mono', monospace" font-size="9" fill="var(--ink-soft)">at decile 4</text>
+
+        <text x="240" y="228" text-anchor="middle" font-family="'IBM Plex Sans', sans-serif" font-size="11" fill="var(--ink-soft)">Population decile, ranked by risk score (low &rarr; high)</text>
+      </svg>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--accent);"></span>Bad accounts, cumulative % captured</span>
+        <span><span class="dot" style="background:#B9B2A2;"></span>Good accounts, cumulative % captured</span>
+      </div>
+      <p class="ex-caption">KS is the widest gap between the two curves &mdash; here, around decile 4, where the model had already captured roughly 72% of bad accounts while only reaching 33% of good accounts. That gap is what collections capacity gets sized against: how many deciles need to be called to catch most of the risk without over-calling good customers. Figures rounded and illustrative.</p>
+    </div>
+
+    <div class="exhibit">
+      <div class="ex-label">EXHIBIT 4 &middot; Validation metrics</div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Metric</th><th>What it tells you</th><th>Range seen here</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Accuracy</td>
+            <td>Overall % of accounts classified correctly &mdash; can look strong even when the model is weak, since bad accounts are a small share of the book.</td>
+            <td>~0.85&ndash;0.90</td>
+          </tr>
+          <tr>
+            <td>AUC (ROC)</td>
+            <td>Probability a randomly picked bad account is scored riskier than a randomly picked good one &mdash; rank-ordering power across every possible cutoff.</td>
+            <td>~0.75&ndash;0.80</td>
+          </tr>
+          <tr>
+            <td>KS</td>
+            <td>Widest gap between cumulative bad and cumulative good curves &mdash; tied to an actual decile, so more directly actionable than AUC for sizing collections capacity.</td>
+            <td>~35&ndash;40, decile 3&ndash;4</td>
+          </tr>
+          <tr>
+            <td>Sensitivity</td>
+            <td>Of all accounts that actually went bad, the % the model flagged in time.</td>
+            <td>~0.35&ndash;0.45</td>
+          </tr>
+          <tr>
+            <td>Precision</td>
+            <td>Of the accounts flagged high-risk, the % that actually went bad.</td>
+            <td>~0.60&ndash;0.65</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="ex-caption">Sensitivity and precision pull in opposite directions &mdash; flagging more accounts catches more real risk but pulls in more accounts that would have cured on their own. Where that line gets drawn is a capacity decision as much as a modeling one. Figures rounded and illustrative; held-out validation confirmed the same ranges as training.</p>
     </div>
   </section>
 
@@ -212,10 +293,12 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
     <h2>What I'd flag for next time</h2>
     <p>
       The model type mattered as much as the variables inside it &mdash; a
-      decision tree earns its keep when there's enough clean behavioral
-      history to build stable splits; a scorecard is the better call when
-      you need something simpler to maintain and update. Matching the
-      method to the portfolio was as important as any individual feature.
+      decision tree earns its keep when there's enough population at every
+      leaf to make each split stable; a scorecard earns its keep once that
+      population thins out, since it can lean on many weighted micro-signals
+      without needing volume behind any single combination of them.
+      Matching the method to where the data actually held up was as
+      important as any individual feature.
     </p>
   </section>
 
