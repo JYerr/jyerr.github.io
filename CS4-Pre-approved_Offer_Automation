@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case File CF-04 — Pre-Approved Offer Automation</title>
+
+<!-- Duplicated from the other case-study pages — same theme variables,
+     same section structure, kept intentionally shorter per the brief. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --paper:      #F5F3EE;
+  --card:       #FFFFFF;
+  --ink:        #1F2937;
+  --ink-soft:   #5B6472;
+  --accent:      #A9762E;
+  --accent-tint: #F3E7D3;
+  --line:       #E1DDD1;
+  --shadow:     0 10px 26px rgba(31,41,55,0.06);
+  --font-display: 'Source Serif 4', Georgia, serif;
+  --font-body:    'IBM Plex Sans', -apple-system, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+  --max-w: 820px;
+  --radius: 10px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+.container { width: min(var(--max-w), 92%); margin: 0 auto; }
+h1, h2 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; margin: 0; color: var(--ink); }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+img { max-width: 100%; display: block; }
+.label { font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+
+.topbar { border-bottom: 1px solid var(--line); background: rgba(245,243,238,0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; }
+.topbar .container { padding: 14px 0; display: flex; justify-content: space-between; align-items: center; }
+.back-link { text-decoration: none; font-weight: 600; font-size: 0.88rem; color: var(--ink); display: inline-flex; align-items: center; gap: 6px; }
+.back-link:hover { color: var(--accent); }
+
+.case-header { padding: clamp(36px, 6vw, 56px) 0 32px; border-bottom: 1px solid var(--line); }
+.case-header .meta-row { display: flex; gap: 18px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft); margin-bottom: 16px; flex-wrap: wrap; }
+.case-header .meta-row strong { color: var(--ink); }
+.case-header h1 { font-size: clamp(1.7rem, 4.5vw, 2.3rem); line-height: 1.15; margin-bottom: 14px; }
+.case-header .dek { color: var(--ink-soft); font-size: 1.02rem; max-width: 620px; }
+
+.stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin: 36px 0; }
+.stat-strip .cell { background: var(--card); padding: 20px 16px; text-align: center; }
+.stat-strip .num { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 600; color: var(--accent); }
+.stat-strip .cap { font-size: 0.8rem; color: var(--ink-soft); margin-top: 4px; }
+@media (max-width: 560px) { .stat-strip { grid-template-columns: 1fr; } }
+
+.case-section { padding: 32px 0; border-bottom: 1px solid var(--line); }
+.case-section:last-of-type { border-bottom: none; }
+.case-section h2 { font-size: 1.3rem; margin-bottom: 12px; }
+.case-section p { color: var(--ink); font-size: 0.98rem; max-width: 660px; }
+.case-section ul { padding-left: 20px; max-width: 660px; color: var(--ink); }
+.case-section li { margin-bottom: 9px; }
+.case-section li::marker { color: var(--accent); }
+
+.exhibit { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; margin: 20px 0; }
+.exhibit .ex-label { font-family: var(--font-mono); font-size: 0.73rem; color: var(--accent); font-weight: 600; letter-spacing: 0.05em; margin-bottom: 16px; }
+.exhibit .ex-caption { color: var(--ink-soft); font-size: 0.86rem; margin-top: 14px; }
+
+/* Pipeline diagram — a row of stage boxes connected by arrows. To add or
+   rename a stage, copy one .pipe-step block and adjust the arrow count. */
+.pipeline { display: flex; align-items: stretch; gap: 4px; flex-wrap: wrap; }
+.pipe-step { flex: 1; min-width: 118px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 14px 12px; text-align: center; }
+.pipe-step .step-name { font-size: 0.86rem; font-weight: 600; margin-bottom: 6px; }
+.pipe-step .step-tag { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-soft); }
+.pipe-step.automated { border-color: var(--accent); background: var(--accent-tint); }
+.pipe-step.automated .step-tag { color: var(--accent); }
+.pipe-arrow { display: flex; align-items: center; justify-content: center; color: var(--ink-soft); font-size: 1.1rem; padding: 0 2px; }
+@media (max-width: 640px) {
+  .pipeline { flex-direction: column; }
+  .pipe-arrow { transform: rotate(90deg); padding: 2px 0; }
+}
+
+/* Simple two-bar before/after comparison, reused from the other case studies */
+.bar-chart { display: flex; align-items: flex-end; gap: clamp(20px, 6vw, 48px); height: 170px; padding: 0 4px; justify-content: center; }
+.bar-group { display: flex; flex-direction: column; align-items: center; gap: 10px; height: 100%; justify-content: flex-end; }
+.bar-group .bars { display: flex; gap: 10px; align-items: flex-end; height: 130px; }
+.bar { width: 44px; border-radius: 4px 4px 0 0; position: relative; }
+.bar.before { background: #D8D3C6; }
+.bar.after { background: var(--accent); }
+.bar .val { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; white-space: nowrap; color: var(--ink); }
+.bar-group .grp-label { font-size: 0.8rem; color: var(--ink-soft); text-align: center; }
+.legend { display: flex; gap: 18px; margin-top: 14px; font-size: 0.8rem; color: var(--ink-soft); justify-content: center; flex-wrap: wrap; }
+.legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+
+footer { background: var(--card); padding: 36px 0; border-top: 1px solid var(--line); text-align: center; }
+footer p { color: var(--ink-soft); font-size: 0.86rem; margin: 6px 0; }
+footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9A968A; margin-top: 14px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <a class="back-link" href="index.html">&larr; Back to portfolio</a>
+    <span class="label">CF&#8209;04</span>
+  </div>
+</div>
+
+<header class="case-header">
+  <div class="container">
+    <div class="meta-row">
+      <span><strong>Case File</strong> 2026-CF04</span>
+      <!-- <span><strong>Domain</strong> Unsecured Lending</span> -->
+      <!-- <span><strong>Role</strong> Credit Risk &middot; Data Automation</span> -->
+    </div>
+    <h1>Pre-Approved Offer Automation on Amazon SageMaker</h1>
+    <p class="dek">
+      Turning a manual, multi-step offer-generation process into a
+      scheduled, self-checking pipeline &mdash; freeing analyst time for
+      strategy instead of babysitting scripts.
+    </p>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="stat-strip">
+    <div class="cell"><div class="num">&minus;30%</div><div class="cap">Analyst hours per cycle</div></div>
+    <div class="cell"><div class="num">4</div><div class="cap">Pipeline stages automated</div></div>
+    <div class="cell"><div class="num">Same-day</div><div class="cap">Anomaly detection</div></div>
+  </div>
+
+  <section class="case-section">
+    <span class="label">Situation</span>
+    <h2>The problem</h2>
+    <p>
+      Generating the pre-approved offer base was a manual, multi-day
+      process &mdash; someone had to kick off each data pull, watch it
+      run, sanity-check the output by hand, and only then hand it to
+      marketing. As offer cycles got more frequent, that manual overhead
+      stopped scaling with the team's capacity.
+    </p>
+  </section>
+
+  <section class="case-section">
+    <span class="label">Approach</span>
+    <h2>What I did</h2>
+    <ul>
+      <li>Moved the offer-generation scripts onto a scheduled Amazon SageMaker pipeline, so compute spun up and ran on a fixed cadence instead of needing someone to trigger each step.</li>
+      <li>Automated the credit-bureau data refresh and feature-generation steps that feed the pre-approval scorecard, keeping the targeting population current without a manual pull each cycle.</li>
+      <li>Built a QC "waterfall" into every run &mdash; row counts, population checks, and sanity checks on key fields &mdash; so a broken upstream table surfaced immediately instead of silently corrupting the offer set.</li>
+      <li>Added a lightweight monitoring layer that emailed QC output to stakeholders after every run, so anomalies got caught the same day rather than at the next manual review.</li>
+    </ul>
+  </section>
+
+  <section class="case-section">
+    <span class="label">Analysis</span>
+    <h2>What the pipeline looks like</h2>
+
+    <div class="exhibit">
+      <div class="ex-label">EXHIBIT 1 &middot; Pipeline stages</div>
+      <div class="pipeline">
+        <div class="pipe-step automated">
+          <div class="step-name">Data Refresh</div>
+          <div class="step-tag">Automated</div>
+        </div>
+        <div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step automated">
+          <div class="step-name">Feature Generation</div>
+          <div class="step-tag">Automated</div>
+        </div>
+        <div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step automated">
+          <div class="step-name">QC Waterfall</div>
+          <div class="step-tag">Automated</div>
+        </div>
+        <div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step automated">
+          <div class="step-name">Offer Finalization</div>
+          <div class="step-tag">Automated</div>
+        </div>
+        <div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step">
+          <div class="step-name">Handoff to Marketing</div>
+          <div class="step-tag">Manual review</div>
+        </div>
+      </div>
+      <p class="ex-caption">Everything up to the final handoff runs on schedule; the last step stays a deliberate human checkpoint before an offer set goes live.</p>
+    </div>
+
+    <div class="exhibit">
+      <div class="ex-label">EXHIBIT 2 &middot; Manual touchpoints, before vs. after</div>
+      <div class="bar-chart">
+        <div class="bar-group">
+          <div class="bars"><div class="bar before" style="height:100%;"><span class="val">5</span></div></div>
+          <div class="grp-label">Before</div>
+        </div>
+        <div class="bar-group">
+          <div class="bars"><div class="bar after" style="height:20%;"><span class="val">1</span></div></div>
+          <div class="grp-label">After</div>
+        </div>
+      </div>
+      <div class="legend">
+        <span><span class="dot" style="background:#D8D3C6;"></span>Manual steps required per offer cycle</span>
+      </div>
+      <p class="ex-caption">From five manual touchpoints per cycle (kick off, monitor, check, compile, notify) down to one &mdash; reviewing the automated QC output and acting only on flagged exceptions. Figures illustrative.</p>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <span class="label">Outcome</span>
+    <h2>Result</h2>
+    <p>
+      Freed up roughly 30% of the analyst time previously spent running
+      and checking the offer pipeline by hand, redirecting it toward
+      strategy work instead. Just as important: the monitoring layer
+      meant a broken run got caught and flagged the same day, instead of
+      surfacing days later when someone next happened to look.
+    </p>
+  </section>
+
+  <section class="case-section">
+    <span class="label">Takeaways</span>
+    <h2>What I'd flag for next time</h2>
+    <p>
+      Automation is only half the win &mdash; a scheduled pipeline that
+      fails silently is worse than a manual process, because nobody's
+      watching it by default. Building the QC waterfall alongside the
+      pipeline, not bolted on afterward, was what actually made the team
+      comfortable letting go of the manual checks.
+    </p>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container">
+    <p>Jithendra Yerramsetti &middot; Credit Risk &amp; Portfolio Analytics</p>
+    <p><a href="mailto:jithendrayerramsetti@gmail.com">jithendrayerramsetti@gmail.com</a></p>
+    <p class="fineprint">Figures shown are illustrative / rounded</p>
+  </div>
+</footer>
+
+</body>
+</html>
