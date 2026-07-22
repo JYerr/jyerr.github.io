@@ -117,21 +117,21 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
 
   <div class="stat-strip">
     <div class="cell"><div class="num">90%</div><div class="cap">On-time repayment, subprime cohort</div></div>
+    <!-- <div class="cell"><div class="num">66r</div><div class="cap">On-time repayment, subprime cohort</div></div> -->
     <div class="cell"><div class="num">2</div><div class="cap">New underwriting policies shipped</div></div>
-    <div class="cell"><div class="num">Bureau + Banking</div><div class="cap">Hybrid eligibility model</div></div>
+    <!-- <div class="cell"><div class="num">Bureau + Banking</div><div class="cap">Hybrid eligibility model</div></div> -->
   </div>
 
   <section class="case-section">
     <span class="label">Situation</span>
     <h2>Two different gaps in the funnel</h2>
     <p>
-      Two separate problems, both underwriting gaps rather than acquisition
-      ones. First: existing customers who'd proven themselves creditworthy
-      had no path to more credit without reapplying from scratch, even
-      when their risk profile had visibly improved. Second: applicants who
-      fell just under standard bureau cutoffs got a blanket decline, even
-      when many of them had strong repayment history on an existing
-      on-book relationship that the bureau score alone didn't capture.
+      Two separate problems, both underwriting gaps rather than
+      acquisition ones.
+    <p>
+      <li>Existing customers who'd proven themselves creditworthy had no path to more credit without reapplying from scratch, even when their risk profile had visibly improved.</li>
+      <li>Applicants who fell just under standard bureau/ internal cutoffs got a blanket decline, even when many of them had strong repayment history on an existing on-book relationship.</li>
+      <li>Both gaps pointed to high-reward products on different ends of the risk spectrum &mdash; subprime is high risk, high reward; top-up is low risk, high reward, with negligible CAC, stronger approval rates, and lower credit costs than acquiring a new customer from scratch.</li>
     </p>
   </section>
 
@@ -141,7 +141,7 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
     <ul>
       <li>Built a top-up policy for existing personal loan customers, anchored on how much a customer's credit score had moved since their first loan (more on this below), a clean recent delinquency record, and a minimum loan vintage &mdash; so top-ups went to borrowers who'd demonstrably gotten safer, not just older.</li>
       <li>Derived new top-up loan amount and tenure as a multiplier off each customer's original loan terms and current risk tier, rather than re-underwriting from zero &mdash; kept pricing and limits tied to the live acquisition-policy grid instead of standing up a separate parallel one.</li>
-      <li>Built a subprime (high-yield) policy for applicants who'd normally be declined on bureau score alone, gated on strong repayment behavior from an existing on-book relationship &mdash; approved with tighter limits, shorter tenures, and risk-adjusted pricing instead of a flat rejection.</li>
+      <li>Built a subprime policy for applicants who'd normally be declined on standard cut-off alone, gated on strong repayment behavior from an existing on-book relationship &mdash; approved with tighter limits, shorter tenures, and risk-adjusted pricing instead of a flat rejection.</li>
       <li>Layered secured-asset context &mdash; home loan, auto loan, and credit card limits &mdash; into a separate top-tier segmentation on the acquisition side, since bureau score alone was under-pricing genuinely low-risk, asset-rich borrowers.</li>
     </ul>
   </section>
@@ -173,8 +173,8 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
             <td>Positive bureau drift, clean recent delinquency, minimum loan vintage &mdash; proving the customer got safer, not just older.</td>
           </tr>
           <tr>
-            <td>Subprime (High-Yield)</td>
-            <td>New applicants below standard bureau cutoffs</td>
+            <td>Subprime</td>
+            <td>New applicants below standard cutoffs</td>
             <td>Strong on-book repayment behavior on an existing relationship, overriding a bureau score that alone would decline them &mdash; priced tighter to offset the added risk.</td>
           </tr>
         </tbody>
