@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case File CF-04 — Pre-Approved Offer Automation</title>
+<title>Case File CF-04 — Pre-Approved Offer Automation | Jithendra Yerramsetti</title>
 
 <!-- Duplicated from the other case-study pages — same theme variables,
      same section structure, kept intentionally shorter per the brief. -->
@@ -92,6 +92,10 @@ img { max-width: 100%; display: block; }
 .legend { display: flex; gap: 18px; margin-top: 14px; font-size: 0.8rem; color: var(--ink-soft); justify-content: center; flex-wrap: wrap; }
 .legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
 
+/* Segment tag grid */
+.segment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.segment-tag { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 0.86rem; font-weight: 600; text-align: center; }
+
 footer { background: var(--card); padding: 36px 0; border-top: 1px solid var(--line); text-align: center; }
 footer p { color: var(--ink-soft); font-size: 0.86rem; margin: 6px 0; }
 footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9A968A; margin-top: 14px; }
@@ -115,8 +119,9 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
     </div>
     <h1>Pre-Approved Offer Automation on Amazon SageMaker</h1>
     <p class="dek">
-      Turning a manual, multi-step offer-generation process into a
-      scheduled, self-checking pipeline &mdash; freeing analyst time for
+      Turning a manual, multi-step offer-generation process &mdash; run
+      separately across four population segments every cycle &mdash; into
+      a scheduled, self-checking pipeline that frees analyst time for
       strategy instead of babysitting scripts.
     </p>
   </div>
@@ -126,7 +131,7 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
 
   <div class="stat-strip">
     <div class="cell"><div class="num">&minus;30%</div><div class="cap">Analyst hours per cycle</div></div>
-    <div class="cell"><div class="num">4</div><div class="cap">Pipeline stages automated</div></div>
+    <div class="cell"><div class="num">4</div><div class="cap">Population segments per cycle</div></div>
     <div class="cell"><div class="num">Same-day</div><div class="cap">Anomaly detection</div></div>
   </div>
 
@@ -147,8 +152,12 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
     <h2>What I did</h2>
     <ul>
       <li>Moved the offer-generation scripts onto a scheduled Amazon SageMaker pipeline, so compute spun up and ran on a fixed cadence instead of needing someone to trigger each step.</li>
+      <li>Split each cycle into four population segments &mdash; active, inactive, and two subprime tiers &mdash; carved and scored independently rather than treating the base as one undifferentiated population.</li>
       <li>Automated the credit-bureau data refresh and feature-generation steps that feed the pre-approval scorecard, keeping the targeting population current without a manual pull each cycle.</li>
-      <li>Built a QC "waterfall" into every run &mdash; row counts, population checks, and sanity checks on key fields &mdash; so a broken upstream table surfaced immediately instead of silently corrupting the offer set.</li>
+      <li>Ran queries asynchronously against the warehouse through a polling step that waits for each one to finish &mdash; or fails loudly &mdash; before the next stage starts, instead of assuming success and moving on.</li>
+      <li>Built a QC "waterfall" into every run &mdash; row counts, population checks, and sanity checks on key fields, tracked per segment &mdash; so a broken upstream table surfaced immediately instead of silently corrupting the offer set.</li>
+      <li>Kept a fixed baseline performance snapshot plus an append-only table that grows month over month, so trend tracking doesn't reprocess history from scratch every cycle.</li>
+      <li>Carved a randomized holdout slice out of part of the population before scoring, so some of the base stays available to validate targeting decisions later rather than only ever refining them in-sample.</li>
       <li>Added a lightweight monitoring layer that emailed QC output to stakeholders after every run, so anomalies got caught the same day rather than at the next manual review.</li>
     </ul>
   </section>
@@ -205,6 +214,17 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
       </div>
       <p class="ex-caption">From five manual touchpoints per cycle (kick off, monitor, check, compile, notify) down to one &mdash; reviewing the automated QC output and acting only on flagged exceptions. Figures illustrative.</p>
     </div>
+
+    <div class="exhibit">
+      <div class="ex-label">EXHIBIT 3 &middot; Population segments scored each cycle</div>
+      <div class="segment-grid">
+        <div class="segment-tag">Active</div>
+        <div class="segment-tag">Inactive</div>
+        <div class="segment-tag">Subprime &mdash; Tier 1</div>
+        <div class="segment-tag">Subprime &mdash; Tier 2</div>
+      </div>
+      <p class="ex-caption">Each segment is carved and scored independently, with its own QC waterfall, then recombined into the final offer set &mdash; not one undifferentiated population run through a single pass. Queries run asynchronously with a polling step that waits for each one to finish or fails loudly, and every new query set still gets one manual dry-run before it's wired into the schedule.</p>
+    </div>
   </section>
 
   <section class="case-section">
@@ -228,6 +248,14 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
       watching it by default. Building the QC waterfall alongside the
       pipeline, not bolted on afterward, was what actually made the team
       comfortable letting go of the manual checks.
+    </p>
+    <p>
+      Two smaller decisions turned out to matter more than expected:
+      carving out a randomized holdout before scoring, so there was
+      always a slice of the population available to check decisions
+      against later instead of only ever tuning in-sample &mdash; and
+      keeping one manual dry-run step ahead of the schedule, so a bad
+      query got caught by a person before it got caught by production.
     </p>
   </section>
 
