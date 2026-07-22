@@ -72,6 +72,7 @@ img { max-width: 100%; display: block; }
 .drift-examples .ex { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 14px; font-size: 0.86rem; }
 .drift-examples .ex .drift-val { font-family: var(--font-mono); font-weight: 600; color: var(--accent); }
 @media (max-width: 560px) { .drift-examples { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .exhibit { padding: 16px; } }
 
 /* Comparison / glossary tables */
 .compare-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
@@ -79,6 +80,27 @@ img { max-width: 100%; display: block; }
 .compare-table th { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
 .compare-table td:first-child { font-weight: 600; white-space: nowrap; }
 .compare-table tr:last-child td { border-bottom: none; }
+
+@media (max-width: 640px) {
+  .compare-table thead { display: none; }
+  .compare-table, .compare-table tbody, .compare-table tr, .compare-table td { display: block; width: 100%; }
+  .compare-table td { white-space: normal; border-bottom: none; padding: 3px 0; }
+  .compare-table tr { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .compare-table tr:last-child { border-bottom: none; }
+  .compare-table td:first-child { color: var(--accent); margin-bottom: 4px; }
+  .compare-table td:not(:first-child)::before {
+    content: attr(data-label);
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-top: 8px;
+    margin-bottom: 2px;
+  }
+}
 
 .footnote { color: var(--ink-soft); font-size: 0.84rem; margin-top: 6px; }
 
@@ -167,13 +189,13 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
         <tbody>
           <tr>
             <td>Top-Up</td>
-            <td>Existing customers in good standing</td>
-            <td>Positive bureau drift, clean recent delinquency, minimum loan vintage &mdash; proving the customer got safer, not just older.</td>
+            <td data-label="Who it's for">Existing customers in good standing</td>
+            <td data-label="What gates eligibility">Positive bureau drift, clean recent delinquency, minimum loan vintage &mdash; proving the customer got safer, not just older.</td>
           </tr>
           <tr>
             <td>Subprime</td>
-            <td>New applicants below standard cutoffs</td>
-            <td>Strong on-book repayment behavior on an existing relationship, overriding a bureau score that alone would decline them &mdash; priced tighter to offset the added risk.</td>
+            <td data-label="Who it's for">New applicants below standard cutoffs</td>
+            <td data-label="What gates eligibility">Strong on-book repayment behavior on an existing relationship, overriding a bureau score that alone would decline them &mdash; priced tighter to offset the added risk.</td>
           </tr>
         </tbody>
       </table>
@@ -199,31 +221,31 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
         <tbody>
           <tr>
             <td>Recent large credit openings</td>
-            <td>New sizeable lines opened elsewhere in a short recent window &mdash; a customer taking on debt fast right before your decision is a red flag your own bureau pull alone won't explain.</td>
+            <td data-label="Why it matters">New sizeable lines opened elsewhere in a short recent window &mdash; a customer taking on debt fast right before your decision is a red flag your own bureau pull alone won't explain.</td>
           </tr>
           <tr>
             <td>Unsecured enquiry volume</td>
-            <td>Shopping around specifically for unsecured credit correlates with near-term cash need more than secured-loan shopping does &mdash; it's often a leading indicator ahead of stress showing up anywhere else.</td>
+            <td data-label="Why it matters">Shopping around specifically for unsecured credit correlates with near-term cash need more than secured-loan shopping does &mdash; it's often a leading indicator ahead of stress showing up anywhere else.</td>
           </tr>
           <tr>
             <td>Secured vs. unsecured enquiry mix</td>
-            <td>Enquiries skewed toward unsecured products read as a stronger risk signal than the same count skewed toward secured ones &mdash; unsecured debt is what people reach for first under pressure.</td>
+            <td data-label="Why it matters">Enquiries skewed toward unsecured products read as a stronger risk signal than the same count skewed toward secured ones &mdash; unsecured debt is what people reach for first under pressure.</td>
           </tr>
           <tr>
             <td>Enquiry-to-approval ratio</td>
-            <td>Many enquiries but few resulting loans means other lenders are declining this customer &mdash; a signal your own model might not otherwise see, since it only sees your own outcome.</td>
+            <td data-label="Why it matters">Many enquiries but few resulting loans means other lenders are declining this customer &mdash; a signal your own model might not otherwise see, since it only sees your own outcome.</td>
           </tr>
           <tr>
             <td>Recent non-card delinquency (DPD)</td>
-            <td>Missed payments on installment loans specifically, excluding cards &mdash; card delinquency behaves differently and more commonly, so blending it in dilutes the signal.</td>
+            <td data-label="Why it matters">Missed payments on installment loans specifically, excluding cards &mdash; card delinquency behaves differently and more commonly, so blending it in dilutes the signal.</td>
           </tr>
           <tr>
             <td>High-credit sanction amount, recent &amp; cumulative</td>
-            <td>How much credit this customer has already been trusted with, recently and over their lifetime &mdash; a proxy for both their profile's scale and how much headroom is left before overexposure.</td>
+            <td data-label="Why it matters">How much credit this customer has already been trusted with, recently and over their lifetime &mdash; a proxy for both their profile's scale and how much headroom is left before overexposure.</td>
           </tr>
           <tr>
             <td>Total &amp; active account count</td>
-            <td>Breadth of credit history (experience) versus currently live obligations (how stretched they already are) &mdash; two different questions from what looks like one number.</td>
+            <td data-label="Why it matters">Breadth of credit history (experience) versus currently live obligations (how stretched they already are) &mdash; two different questions from what looks like one number.</td>
           </tr>
         </tbody>
       </table>
@@ -238,19 +260,19 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
         <tbody>
           <tr>
             <td>Bounce &amp; return entries</td>
-            <td>Cheque/ACH bounces, their charges, minimum-balance charges, and internal transfers get stripped out <em>before</em> computing income &mdash; left in, they distort the genuine cash-flow read a decision actually needs.</td>
+            <td data-label="Why it matters">Cheque/ACH bounces, their charges, minimum-balance charges, and internal transfers get stripped out <em>before</em> computing income &mdash; left in, they distort the genuine cash-flow read a decision actually needs.</td>
           </tr>
           <tr>
             <td>Monthly transaction activity</td>
-            <td>Debit/credit counts per month over a recent window &mdash; a very low count suggests a dormant or pass-through account rather than someone's real primary bank account, which weakens any income estimate pulled from it.</td>
+            <td data-label="Why it matters">Debit/credit counts per month over a recent window &mdash; a very low count suggests a dormant or pass-through account rather than someone's real primary bank account, which weakens any income estimate pulled from it.</td>
           </tr>
           <tr>
             <td>Inward cheque / EMI return count</td>
-            <td>The banking-side equivalent of bureau delinquency &mdash; it can catch repayment stress that hasn't reached the bureau yet, since bureau reporting always lags real account activity.</td>
+            <td data-label="Why it matters">The banking-side equivalent of bureau delinquency &mdash; it can catch repayment stress that hasn't reached the bureau yet, since bureau reporting always lags real account activity.</td>
           </tr>
           <tr>
             <td>Income-to-EMI affordability correlation</td>
-            <td>A sanity check between declared income and what the bureau shows the customer actually paying out each month &mdash; catches cases where the two stories don't agree.</td>
+            <td data-label="Why it matters">A sanity check between declared income and what the bureau shows the customer actually paying out each month &mdash; catches cases where the two stories don't agree.</td>
           </tr>
         </tbody>
       </table>
@@ -290,10 +312,9 @@ footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9
 
 <footer>
   <div class="container">
-    <p>Jithendra Yerramsetti &middot; 
-      <!-- Credit Risk &amp; Portfolio Analytics</p> -->
+    <p>Jithendra Yerramsetti &middot; </p>
     <p><a href="mailto:jithendrayerramsetti@gmail.com">jithendrayerramsetti@gmail.com</a></p>
-    <p class="fineprint">Figures shown are illustrative</p>
+    <p class="fineprint">© 2026 · Data shown in case studies are illustrative</p>
   </div>
 </footer>
 
