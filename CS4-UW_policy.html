@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case File CF-03 — Underwriting Policy Innovation | Jithendra Yerramsetti</title>
+
+<!-- Duplicated from the other case-study pages — same theme variables,
+     same section structure. Edit content only. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --paper:      #F5F3EE;
+  --card:       #FFFFFF;
+  --ink:        #1F2937;
+  --ink-soft:   #5B6472;
+  --accent:      #A9762E;
+  --accent-tint: #F3E7D3;
+  --line:       #E1DDD1;
+  --shadow:     0 10px 26px rgba(31,41,55,0.06);
+  --font-display: 'Source Serif 4', Georgia, serif;
+  --font-body:    'IBM Plex Sans', -apple-system, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, monospace;
+  --max-w: 860px;
+  --radius: 10px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font-body); background: var(--paper); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+.container { width: min(var(--max-w), 92%); margin: 0 auto; }
+h1, h2 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; margin: 0; color: var(--ink); }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+img { max-width: 100%; display: block; }
+.label { font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+
+.topbar { border-bottom: 1px solid var(--line); background: rgba(245,243,238,0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; }
+.topbar .container { padding: 14px 0; display: flex; justify-content: space-between; align-items: center; }
+.back-link { text-decoration: none; font-weight: 600; font-size: 0.88rem; color: var(--ink); display: inline-flex; align-items: center; gap: 6px; }
+.back-link:hover { color: var(--accent); }
+
+.case-header { padding: clamp(36px, 6vw, 56px) 0 32px; border-bottom: 1px solid var(--line); }
+.case-header .meta-row { display: flex; gap: 18px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft); margin-bottom: 16px; flex-wrap: wrap; }
+.case-header .meta-row strong { color: var(--ink); }
+.case-header h1 { font-size: clamp(1.7rem, 4.5vw, 2.3rem); line-height: 1.15; margin-bottom: 14px; }
+.case-header .dek { color: var(--ink-soft); font-size: 1.02rem; max-width: 640px; }
+
+.stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin: 36px 0; }
+.stat-strip .cell { background: var(--card); padding: 20px 16px; text-align: center; }
+.stat-strip .num { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 600; color: var(--accent); }
+.stat-strip .cap { font-size: 0.8rem; color: var(--ink-soft); margin-top: 4px; }
+@media (max-width: 560px) { .stat-strip { grid-template-columns: 1fr; } }
+
+.case-section { padding: 34px 0; border-bottom: 1px solid var(--line); }
+.case-section:last-of-type { border-bottom: none; }
+.case-section h2 { font-size: 1.35rem; margin-bottom: 14px; }
+.case-section > p { color: var(--ink); font-size: 0.98rem; max-width: 680px; }
+.case-section ul { padding-left: 20px; max-width: 680px; color: var(--ink); }
+.case-section li { margin-bottom: 10px; }
+.case-section li::marker { color: var(--accent); }
+
+.exhibit { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; margin: 20px 0; }
+.exhibit .ex-label { font-family: var(--font-mono); font-size: 0.73rem; color: var(--accent); font-weight: 600; letter-spacing: 0.05em; margin-bottom: 16px; }
+.exhibit .ex-caption { color: var(--ink-soft); font-size: 0.86rem; margin-top: 14px; }
+
+/* Bureau Drift formula box */
+.formula-box { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px; font-family: var(--font-mono); font-size: 0.95rem; text-align: center; margin-bottom: 16px; }
+.drift-examples { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.drift-examples .ex { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 14px; font-size: 0.86rem; }
+.drift-examples .ex .drift-val { font-family: var(--font-mono); font-weight: 600; color: var(--accent); }
+@media (max-width: 560px) { .drift-examples { grid-template-columns: 1fr; } }
+
+/* Comparison / glossary tables */
+.compare-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.compare-table th, .compare-table td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.compare-table th { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+.compare-table td:first-child { font-weight: 600; white-space: nowrap; }
+.compare-table tr:last-child td { border-bottom: none; }
+
+.footnote { color: var(--ink-soft); font-size: 0.84rem; margin-top: 6px; }
+
+footer { background: var(--card); padding: 36px 0; border-top: 1px solid var(--line); text-align: center; }
+footer p { color: var(--ink-soft); font-size: 0.86rem; margin: 6px 0; }
+footer .fineprint { font-family: var(--font-mono); font-size: 0.72rem; color: #9A968A; margin-top: 14px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <a class="back-link" href="index.html">&larr; Back to portfolio</a>
+    <span class="label">CF&#8209;03</span>
+  </div>
+</div>
+
+<header class="case-header">
+  <div class="container">
+    <div class="meta-row">
+      <span><strong>Case File</strong> 2026-CF03</span>
+      <!-- <span><strong>Domain</strong> Unsecured Lending</span> -->
+      <!-- <span><strong>Role</strong> Credit Risk &middot; Policy Design</span> -->
+    </div>
+    <h1>Underwriting Policy Innovation &mdash; Top-Up &amp; Subprime Lending</h1>
+    <p class="dek">
+      Extending credit in two different directions at once &mdash; deeper
+      into existing good customers through a top-up product, and
+      cautiously into higher-risk applicants through a subprime product
+      &mdash; without loosening the underlying risk discipline either way.
+    </p>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="stat-strip">
+    <div class="cell"><div class="num">90%</div><div class="cap">On-time repayment, subprime cohort</div></div>
+    <div class="cell"><div class="num">2</div><div class="cap">New underwriting policies shipped</div></div>
+    <div class="cell"><div class="num">Bureau + Banking</div><div class="cap">Hybrid eligibility model</div></div>
+  </div>
+
+  <section class="case-section">
+    <span class="label">Situation</span>
+    <h2>Two different gaps in the funnel</h2>
+    <p>
+      Two separate problems, both underwriting gaps rather than acquisition
+      ones. First: existing customers who'd proven themselves creditworthy
+      had no path to more credit without reapplying from scratch, even
+      when their risk profile had visibly improved. Second: applicants who
+      fell just under standard bureau cutoffs got a blanket decline, even
+      when many of them had strong repayment history on an existing
+      on-book relationship that the bureau score alone didn't capture.
+    </p>
+  </section>
+
+  <section class="case-section">
+    <span class="label">Approach</span>
+    <h2>What I did</h2>
+    <ul>
+      <li>Built a top-up policy for existing personal loan customers, anchored on how much a customer's credit score had moved since their first loan (more on this below), a clean recent delinquency record, and a minimum loan vintage &mdash; so top-ups went to borrowers who'd demonstrably gotten safer, not just older.</li>
+      <li>Derived new top-up loan amount and tenure as a multiplier off each customer's original loan terms and current risk tier, rather than re-underwriting from zero &mdash; kept pricing and limits tied to the live acquisition-policy grid instead of standing up a separate parallel one.</li>
+      <li>Built a subprime (high-yield) policy for applicants who'd normally be declined on bureau score alone, gated on strong repayment behavior from an existing on-book relationship &mdash; approved with tighter limits, shorter tenures, and risk-adjusted pricing instead of a flat rejection.</li>
+      <li>Layered secured-asset context &mdash; home loan, auto loan, and credit card limits &mdash; into a separate top-tier segmentation on the acquisition side, since bureau score alone was under-pricing genuinely low-risk, asset-rich borrowers.</li>
+    </ul>
+  </section>
+
+  <section class="case-section">
+    <span class="label">Analysis</span>
+    <h2>How eligibility actually gets decided</h2>
+
+    <div class="exhibit">
+      <div class="ex-label">EXHIBIT 1 &middot; Bureau Drift &mdash; the core top-up signal</div>
+      <div class="formula-box">Bureau Drift = Latest Bureau Score &minus; Acquisition Bureau Score</div>
+      <div class="drift-examples">
+        <div class="ex"><span class="drift-val">+100</span> &mdash; score moved 700 &rarr; 800 since the first loan. Reads as: this customer has gotten meaningfully safer.</div>
+        <div class="ex"><span class="drift-val">&minus;100</span> &mdash; score moved 800 &rarr; 700 since the first loan. Reads as: this customer has gotten meaningfully riskier, top-up excluded regardless of other criteria.</div>
+      </div>
+      <p class="ex-caption">Positive drift plus a clean recent delinquency record is the anchor of top-up eligibility &mdash; it's a direct read on "has this specific customer's risk changed," rather than relying on a static score threshold that treats everyone the same regardless of trajectory.</p>
+    </div>
+
+    <div class="exhibit">
+      <div class="ex-label">EXHIBIT 2 &middot; Two policies, two different risk logics</div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Policy</th><th>Who it's for</th><th>What gates eligibility</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Top-Up</td>
+            <td>Existing customers in good standing</td>
+            <td>Positive bureau drift, clean recent delinquency, minimum loan vintage &mdash; proving the customer got safer, not just older.</td>
+          </tr>
+          <tr>
+            <td>Subprime (High-Yield)</td>
+            <td>New applicants below standard bureau cutoffs</td>
+            <td>Strong on-book repayment behavior on an existing relationship, overriding a bureau score that alone would decline them &mdash; priced tighter to offset the added risk.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="ex-caption">Same underlying goal &mdash; price risk accurately instead of using a single blunt cutoff &mdash; applied in opposite directions of the funnel.</p>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <span class="label">Reference</span>
+    <h2>Bureau &amp; banking signals this kind of policy leans on</h2>
+    <p>
+      These are the variable families that actually drive decisions like
+      the ones above &mdash; grouped by what each one is really asking,
+      not just what it's called.
+    </p>
+
+    <div class="exhibit">
+      <div class="ex-label">EXHIBIT 3 &middot; Bureau signals</div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Signal</th><th>Why it matters</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Recent large credit openings</td>
+            <td>New sizeable lines opened elsewhere in a short recent window &mdash; a customer taking on debt fast right before your decision is a red flag your own bureau pull alone won't explain.</td>
+          </tr>
+          <tr>
+            <td>Unsecured enquiry volume</td>
+            <td>Shopping around specifically for unsecured credit correlates with near-term cash need more than secured-loan shopping does &mdash; it's often a leading indicator ahead of stress showing up anywhere else.</td>
+          </tr>
+          <tr>
+            <td>Secured vs. unsecured enquiry mix</td>
+            <td>Enquiries skewed toward unsecured products read as a stronger risk signal than the same count skewed toward secured ones &mdash; unsecured debt is what people reach for first under pressure.</td>
+          </tr>
+          <tr>
+            <td>Enquiry-to-approval ratio</td>
+            <td>Many enquiries but few resulting loans means other lenders are declining this customer &mdash; a signal your own model might not otherwise see, since it only sees your own outcome.</td>
+          </tr>
+          <tr>
+            <td>Recent non-card delinquency (DPD)</td>
+            <td>Missed payments on installment loans specifically, excluding cards &mdash; card delinquency behaves differently and more commonly, so blending it in dilutes the signal.</td>
+          </tr>
+          <tr>
+            <td>High-credit sanction amount, recent &amp; cumulative</td>
+            <td>How much credit this customer has already been trusted with, recently and over their lifetime &mdash; a proxy for both their profile's scale and how much headroom is left before overexposure.</td>
+          </tr>
+          <tr>
+            <td>Total &amp; active account count</td>
+            <td>Breadth of credit history (experience) versus currently live obligations (how stretched they already are) &mdash; two different questions from what looks like one number.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="exhibit">
+      <div class="ex-label">EXHIBIT 4 &middot; Banking signals</div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Signal</th><th>Why it matters</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Bounce &amp; return entries</td>
+            <td>Cheque/ACH bounces, their charges, minimum-balance charges, and internal transfers get stripped out <em>before</em> computing income &mdash; left in, they distort the genuine cash-flow read a decision actually needs.</td>
+          </tr>
+          <tr>
+            <td>Monthly transaction activity</td>
+            <td>Debit/credit counts per month over a recent window &mdash; a very low count suggests a dormant or pass-through account rather than someone's real primary bank account, which weakens any income estimate pulled from it.</td>
+          </tr>
+          <tr>
+            <td>Inward cheque / EMI return count</td>
+            <td>The banking-side equivalent of bureau delinquency &mdash; it can catch repayment stress that hasn't reached the bureau yet, since bureau reporting always lags real account activity.</td>
+          </tr>
+          <tr>
+            <td>Income-to-EMI affordability correlation</td>
+            <td>A sanity check between declared income and what the bureau shows the customer actually paying out each month &mdash; catches cases where the two stories don't agree.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="footnote">Skip-banking logic: banking data is the more reliable affordability signal but the slowest, highest-friction one to collect &mdash; so it only gets skipped when the bureau profile alone is "thick" enough (sufficient account history, positive net disposable income, low-enough risk tier) to trust on its own.</p>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <span class="label">Outcome</span>
+    <h2>Result</h2>
+    <p>
+      The subprime cohort held a 90% on-time repayment rate &mdash; evidence
+      that behavioral, on-book signals were a legitimate override for
+      applicants a bureau-only cutoff would have declined outright. The
+      top-up policy gave existing good customers a path to more credit
+      without a full reunderwrite, while the bureau-drift gate kept that
+      expansion tied to each customer's actual trajectory rather than a
+      static score.
+    </p>
+  </section>
+
+  <section class="case-section">
+    <span class="label">Takeaways</span>
+    <h2>What I'd flag for next time</h2>
+    <p>
+      The recurring theme across both policies: a single bureau score at
+      a single point in time is a blunt instrument in either direction
+      &mdash; too generous to customers who've quietly gotten riskier, too
+      harsh to applicants a static cutoff misjudges. Trajectory (bureau
+      drift) and behavior (on-book repayment history) were both more
+      useful than the score alone, just applied on opposite ends of the
+      funnel.
+    </p>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container">
+    <p>Jithendra Yerramsetti &middot; 
+      <!-- Credit Risk &amp; Portfolio Analytics</p> -->
+    <p><a href="mailto:jithendrayerramsetti@gmail.com">jithendrayerramsetti@gmail.com</a></p>
+    <p class="fineprint">Figures shown are illustrative</p>
+  </div>
+</footer>
+
+</body>
+</html>
